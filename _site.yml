@@ -8,9 +8,9 @@ navbar:
   - text: Introduction to R
     menu:
     - text: Introduction to R
-      href: x.html
+      href: 
   - text: Networks in R
-    href: Day3.html
+    href: 
 output:
   html_document:
     theme: flatly
