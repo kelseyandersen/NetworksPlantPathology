@@ -1,29 +1,23 @@
-name: Epidemiology and Data Science
+name: Networks in Plant Pathology
 output_dir: '.'
 navbar:
-  title: Epidemiology & Data Science
+  title: Networks in Plant Pathology
   left:
-  - text: Syllabus
+  - text: Welcome
     href: index.html
-  - text: R for Data Science
+  - text: Introduction to R
     menu:
-    - text: Data Visualization
-      href: robin.html
-    - text: Dplyr and Scripts
-      href: dplyr2.html
-    - text: Exploratory Data Analysis in R
-      href: Ravin_EDA_v3.html
-    - text: Data Import and Tidy
-      href: tidyr.html
-  - text: Disease progress
+    - text: Introduction to R
+      href: x.html
+  - text: Networks in R
     href: Day3.html
 output:
   html_document:
-    theme: flatly ##or paper
+    theme: flatly
     highlight: monochrome
     css: styles.css
     toc: yes
     toc_float: yes
-    lib_dir: site_libs
-    self_contained: no
+    #lib_dir: site_libs
+    #self_contained: no
 
