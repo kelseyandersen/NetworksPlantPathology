@@ -1,0 +1,92 @@
+---
+title: "Welcome!"
+---
+
+### Epidemiology & Data Science
+
+PLP6905 
+Gainesville: section 4H93
+Off-campus: section 41D3
+
+2 credit hours
+
+Class meetings in 2018 Summer B: July 3-26 and August 7-9;  
+Tuesday and Thursday, Periods 4 and 5 (12:30-1:45, 2:00-3:15);  
+2564 Fifield Hall
+
+>NOTE: There are no class meetings July 31 and August 2 (during the International Congress of Plant Pathology).  These meeting times will be made up at other times acceptable to all class participants.
+
+### Prerequisites
+
+General knowledge of agricultural, ecological, or epidemiological systems, at least two undergraduate or graduate courses applying quantitative concepts and tools (such as statistics or quantitative ecology courses)  
+
+Instructor: Dr. Karen A. Garrett (garrettlab.com)   
+Plant Pathology, Institute for Sustainable Food Systems, Emerging Pathogens Institute  
+Office: 2411 Fifield Hall  
+Email: karengarrett@ufl.edu  
+Phone: 352-273-4632  
+\  
+
+
+
+Teaching Assistants:  
+Kelsey Andersen andersenk@ufl.edu  
+Yanru Xing yanruxing@ufl.edu   
+\  
+
+### Website
+
+Course materials access: [Canvas](http://elearning.ufl.edu/) and [Class Website](kelseyandersen.github.io/Epidemiology/)  
+\  
+
+
+### Office hours
+
+By appointment in advance, 3:30-4:30 Tuesday and Thursday, or additional times as needed  
+\  
+
+
+### Course overview  
+
+Plant disease epidemiology addresses how interactions among plants, pathogens, vectors, the abiotic environment, and human decision-making result in the occurrence and spread of plant disease.  Epidemiology also represents the interface between plant pathology and other disciplines, such as meteorology and social sciences.  
+\  
+\  
+
+This course addresses classical approaches to epidemiology as well as frontiers that make use of new big data opportunities.  The course provides an introduction to the R programming environment, data science applications in epidemiology and epidemiological analyses using R.  The course includes a combination of lectures to provide background information, discussion of current literature, computational analysis workshops to illustrate concepts, and individual projects to allow participants to apply ideas to systems that particularly interest them.  
+\  
+\  
+
+In the individual projects, each participant will select a disease of particular interest, assemble a portfolio of epidemiological information related to that disease, write a short proposal including an experimental design to collect important new data related to the disease, and evaluate regional management strategies for the disease in an epidemiological synthesis.  
+\ 
+\  
+
+The course emphasizes concepts and use of existing tools, while at the same time it will offer a basis for the development of new tools for participants interested in further steps.  
+\  
+\  
+
+
+### Course learning objectives  
+
+Participants who have completed this course will be able to…  
+
+* explain and apply general epidemiological concepts, such as disease progress over time, pathogen dispersal, sampling strategies, and spatial analyses
+* broadly understand and discuss journal articles addressing plant disease epidemiology
+* design basic epidemiological studies, in designed experiments and observational studies
+* analyze basic epidemiological studies using R  
+
+\  
+
+
+### Quizes!  
+If you are remote, please email answers to karengarrett@ufl.edu, andersenk@ufl.ed, yanruxing@ufl.edu with the Subject: Your Last Name, Quiz 1
+
+
+[Quiz 1](Quizes/Quiz1.pdf)  
+[Quiz 2](Quizes/Quiz2.pdf)  
+[Quiz 3](Quizes/Quiz3.pdf)  
+[Quiz 4](Quizes/Quiz4.pdf)
+
+### Lecture recordings 
+
+[Zoom Recordings](https://mediasite.video.ufl.edu/Mediasite/Catalog/catalogs/epidemiology)
+

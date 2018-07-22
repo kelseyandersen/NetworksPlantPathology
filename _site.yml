@@ -1,0 +1,29 @@
+name: Epidemiology and Data Science
+output_dir: '.'
+navbar:
+  title: Epidemiology & Data Science
+  left:
+  - text: Syllabus
+    href: index.html
+  - text: R for Data Science
+    menu:
+    - text: Data Visualization
+      href: robin.html
+    - text: Dplyr and Scripts
+      href: dplyr2.html
+    - text: Exploratory Data Analysis in R
+      href: Ravin_EDA_v3.html
+    - text: Data Import and Tidy
+      href: tidyr.html
+  - text: Disease progress
+    href: Day3.html
+output:
+  html_document:
+    theme: flatly ##or paper
+    highlight: monochrome
+    css: styles.css
+    toc: yes
+    toc_float: yes
+    lib_dir: site_libs
+    self_contained: no
+
