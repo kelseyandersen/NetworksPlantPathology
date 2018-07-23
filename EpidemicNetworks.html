@@ -311,8 +311,10 @@ div.tocify {
     <li>
       <a href="EpidemicNetworks.html">Epidemic Networks</a>
     </li>
+    <li class="dropdown-header">Microbiome Networks</li>
   </ul>
 </li>
+<li class="dropdown-header">Additional Resources</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -451,16 +453,16 @@ Amat &lt;-<span class="st"> </span>Amat*<span class="dv">1</span> ## make your l
 <span class="kw">diag</span>(Amat) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># set the diagonals to 1 so that if a node is infected, it stays infected</span>
 Amat <span class="co"># our randomly generated matrix</span></code></pre></div>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-##  [1,]    1    0    0    0    1    1    0    1    0     1
-##  [2,]    0    1    1    0    0    0    1    0    1     0
-##  [3,]    0    0    1    0    0    1    0    0    1     0
-##  [4,]    0    0    0    1    1    0    0    0    0     0
-##  [5,]    1    0    1    0    1    1    0    0    1     0
-##  [6,]    1    1    0    0    0    1    0    0    0     1
-##  [7,]    0    0    0    0    0    0    1    0    1     0
-##  [8,]    0    1    1    0    0    0    0    1    1     0
-##  [9,]    0    1    0    1    1    0    1    1    1     0
-## [10,]    1    0    0    0    1    0    0    0    0     1</code></pre>
+##  [1,]    1    0    0    0    0    0    0    0    0     1
+##  [2,]    1    1    0    1    0    1    0    0    1     0
+##  [3,]    1    0    1    0    1    0    0    0    0     0
+##  [4,]    0    0    0    1    0    0    1    0    0     0
+##  [5,]    1    0    0    1    1    1    1    1    1     0
+##  [6,]    1    1    1    0    0    1    0    1    1     0
+##  [7,]    1    1    0    0    0    0    1    0    0     1
+##  [8,]    0    0    1    0    0    0    0    1    1     0
+##  [9,]    0    0    1    0    1    0    0    0    1     0
+## [10,]    0    0    0    0    0    0    0    1    0     1</code></pre>
 <p> </p>
 <p>Plot to see you network</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mat3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(Amat)
@@ -478,7 +480,7 @@ df</code></pre></div>
 ##  [1,]     1     1
 ##  [2,]     0     1
 ##  [3,]     0     1
-##  [4,]     0     1
+##  [4,]     0     0
 ##  [5,]     0     1
 ##  [6,]     1     1
 ##  [7,]     1     1
@@ -537,9 +539,9 @@ fix.layout &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(
 FullNet2 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(FullNet)
 FullNet3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(FullNet2)
 FullNet3</code></pre></div>
-<pre><code>## IGRAPH 706a587 DN-- 126 283 -- 
+<pre><code>## IGRAPH e20abb7 DN-- 126 283 -- 
 ## + attr: name (v/c)
-## + edges from 706a587 (vertex names):
+## + edges from e20abb7 (vertex names):
 ##  [1] S_1 -&gt;V_30 S_1 -&gt;V_48 S_1 -&gt;V_58 S_1 -&gt;V_95 S_1 -&gt;V_98 S_10-&gt;V_30
 ##  [7] S_10-&gt;V_35 S_10-&gt;V_53 S_10-&gt;V_58 S_10-&gt;V_86 S_10-&gt;V_89 S_10-&gt;V_97
 ## [13] S_10-&gt;V_98 S_11-&gt;V_30 S_11-&gt;V_35 S_11-&gt;V_53 S_11-&gt;V_58 S_11-&gt;V_86
@@ -816,14 +818,14 @@ A</code></pre></div>
 ##    &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
 ##  1    1.    1.              5.
 ##  2    1.    2.              9.
-##  3    1.    3.             12.
-##  4    1.    4.             13.
-##  5    1.    5.             17.
-##  6    1.    6.             18.
-##  7    1.    7.             23.
-##  8    1.    8.             25.
-##  9    1.    9.             32.
-## 10    1.   10.             34.
+##  3    1.    3.             17.
+##  4    1.    4.             22.
+##  5    1.    5.             23.
+##  6    1.    6.             29.
+##  7    1.    7.             34.
+##  8    1.    8.             36.
+##  9    1.    9.             38.
+## 10    1.   10.             41.
 ## # ... with 1,990 more rows</code></pre>
 <p>  Plot!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) ## I choose to use ggplot here 

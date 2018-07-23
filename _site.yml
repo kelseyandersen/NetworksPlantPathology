@@ -18,7 +18,9 @@ navbar:
     - text: Microbiome Networks 
       href: ~
   - text: Additional Resources
-    href: ~
+    menu: 
+    - text: Misc
+      href: ~
 output:
   html_document:
     theme: flatly
