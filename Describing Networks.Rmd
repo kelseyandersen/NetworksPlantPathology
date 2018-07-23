@@ -9,6 +9,8 @@ First, make sure you have loaded package *igraph*.
 library(igraph)
 ```
 
+### Simple Networks
+
 First, create a simple adjacency matrix with three rows and three columns 
 ```{r}
 mat1 <- matrix(c(0, 1, 0, 0, 0, 1, 1,0, 0), nrow=3, ncol=3) ### matrix function 
@@ -22,13 +24,13 @@ mat2 <- graph_from_adjacency_matrix(mat1)
 plot(mat2, edge.arrow.size = 1) ## set the size of the arrows 
 ```
 
-Alternatively, create the network by telling igraph what links you have 
+Alternatively, create the same network by telling igraph what links you have  
 
 ```{r}
 mat3 <- graph( edges=c(1,3, 3,2, 2,1), n=3, directed=T ) # use graph function and list edges 
 plot(mat3, edge.arrow.size = 1)
 ```
-
+\  
 ## Network Aestetics
 Many parts of a network can be sized and colored to help communicate results more clearly. 
 
@@ -37,7 +39,100 @@ plot(mat3, edge.arrow.size = 1, vertex.color = "purple", vertex.size = 20, verte
 
 ```
 
+### Generating Random Networks   
+Networks can also be generated randomly  
+\  
+Empty graph
 
+```{r}
+eg <- make_empty_graph(50)
+plot(eg, vertex.size=10, vertex.label=NA, vertex.color = "plum")
+eg
+```
+
+Full Graph
+
+```{r}
+fg <- make_full_graph(40)
+plot(fg, vertex.size=10, vertex.label=NA, vertex.color = "plum")
+fg
+```
+\  
+
+Tree Graph 
+```{r}
+tr <- make_tree(40, children = 3, mode = "undirected")
+plot(tr, vertex.size=10, vertex.label=NA, vertex.color = "plum") 
+```
+
+Erdos-Renyi random graph (‘n’ is number of nodes, ‘m’ is the number of edges)
+```{r}
+er <- sample_gnm(n=100, m=40) 
+plot(er, vertex.size=5, vertex.label=NA, vertex.color = "plum")  
+```
+
+
+Barabasi-Albert scale-free graph (preferential attachment)
+```{r}
+ba <-  sample_pa(n=100, power=1, m=1,  directed=F)
+plot(ba, vertex.size=6, vertex.label=NA, vertex.color = "plum")
+```
+
+
+## Data types  
+
+### Data to Adjacency Matrix  
+\  
+You can read in your data directly as a matrix, but likely this is not the way that you have your data organized. Instead, it might be easier to have two files: *node* file and *edge* file. 
+
+In an node file, the first two columns all of your from:to links. Column 1 is always from, Column 2 is always 2. (less important for undirected networks). The columns after that are your edge atributes. Here you can include link weights, names, etc.
+```{r}
+Nodelist <- data.frame(
+                    Names =c("Jim", "Carole", "Joe", "Michelle", "Jen", "Pete", "Paul", "Tim", 
+                            "Jess", "Mark", "Jill", "Cam", "Kate") ,
+                    YearsFarming = c(8.5, 6.5, 4, 1, 3, 10, 5, 5, 5, 1, 1, 6, 6) , 
+                    Age = c(22, 31, 25, 21, 22, 35, 42, 27, 26, 33, 26, 28, 22) , 
+                    Gender = c("Male", "Female", "Male", "Female", "Female", "Male","Male","Male", "Female", "Male", "Female", "Male", "Female"))
+Nodelist       
+```
+
+Now an edgelist- Who shared information in the 2017 growing season? How frequently? 
+```{r}
+Edgelist <- data.frame(
+                  From = c("Jim", "Jim", "Jim", "Jill", "Kate", "Pete", "Pete", "Jess", "Jim", "Jim", "Pete"),
+                  To = c("Carole", "Jen", "Pete", "Carole", "Joe", "Carole", "Paul", "Mark", "Cam", "Mark", "Tim")
+)
+
+```
+
+
+### Into igraph objects
+
+
+```{r}
+Network <- graph_from_data_frame(d = Edgelist, vertices = Nodelist, directed = T)
+Network
+E(Network)
+V(Network)
+```
+
+
+Plot!
+```{r}
+plot(Network, edge.arrow.size = .5, vertex.color = "plum", vertex.label.dist = 2.5)
+
+```
+
+### Fancy Stuff
+ More about making igraphs pretty at [Katya Ognyanova's Site]http://kateto.net/networks-r-igraph  
+\  
+n    
+n  
+n  
+n  
+n  
+n  
+\  
 
 
 
