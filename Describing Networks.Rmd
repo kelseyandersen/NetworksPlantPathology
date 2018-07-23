@@ -124,7 +124,7 @@ plot(Network, edge.arrow.size = .5, vertex.color = "plum", vertex.label.dist = 2
 ```
 
 ### Fancy Stuff
- More about making igraphs pretty at [Katya Ognyanova's Site]http://kateto.net/networks-r-igraph  
+ More about making igraphs pretty at [Katya Ognyanova's Site](http://kateto.net/networks-r-igraph)  
 \  
 n    
 n  
@@ -136,17 +136,17 @@ n
 
 
 
-### Describing networks
+### Describing networks  
+\  
 
-
-Use igraph "graph" function to plot directly as igraph object. 
+Use igraph "graph" function to plot a network directly as igraph object. 
 ```{r}
 g1 <- graph( edges=c(1,3, 3,2, 2,1), n=3, directed=T ) 
 g1
 plot(g1, edge.arrow.size = .5)
 ```
 
-Undirected
+Make it *undirected*
 ```{r}
 g2 <- graph(edges = c(1,3, 1,2, 1,4, 2,4), n = 4, directed = F)
 g2
@@ -155,12 +155,12 @@ plot(g2, edge.arrow.size = .5)
 
 Graph Density, diameter, mean path length
 ```{r}
-igraph::graph.density(g2) #graph density 
+igraph::graph.density(g2) #graph density
 diameter(g2) # diameter
 mean_distance(g2) ##mean path length
 ```
 
-directed graph
+*Directed* graph
 ```{r}
 g3 <- graph(edges = c(1,3, 1,2, 1,4, 2,4), n = 4, directed = T)
 g3
@@ -168,7 +168,7 @@ plot(g3, edge.arrow.size = .7)
 ```
 
 
-Toy example for betweenness centrality 
+Toy example for *betweenness centrality* 
 ```{r}
 g5 <- graph(edges = c(1,2, 2,3, 3,4, 4,5), n = 5, directed = F)
 plot(g5, vertex.label.cex = .0001)
@@ -181,7 +181,7 @@ igraph::closeness(g2, vids = V(g2), normalized = FALSE)
 igraph::betweenness(g2)
 ```
 
-Geodesic
+Geodesic distance
 ```{r}
 Geodesic <- igraph::distances(g2)
 Geodesic ## geodesic matrix
@@ -208,24 +208,20 @@ igraph::transitivity(g2)
 ```
 
 
-back to our class example 
+back to our farmer example 
 ```{r}
-Edges <- data.frame(
-  From =c("Jim", "Jim", "Jim", "Jim", "Carole", "Carole", "Carole", "Joe", "Joe", "Joe", "Michelle", "Michelle", "Jen", "Jim"),
-  To = c("Carole", "Joe", "Mark", "Jill", "Jen", "Pete", "Paul", "Jill", "Cam", "Kate", "Jill", "Tim" , "Cam", "Jess"))
+Nodelist <- data.frame(
+                    Names =c("Jim", "Carole", "Joe", "Michelle", "Jen", "Pete", "Paul", "Tim", 
+                            "Jess", "Mark", "Jill", "Cam", "Kate") ,
+                    YearsFarming = c(8.5, 6.5, 4, 1, 3, 10, 5, 5, 5, 1, 1, 6, 6) , 
+                    Age = c(22, 31, 25, 21, 22, 35, 42, 27, 26, 33, 26, 28, 22) , 
+                    Gender = c("Male", "Female", "Male", "Female", "Female", "Male","Male","Male", "Female", "Male", "Female", "Male"))
+Edgelist <- data.frame(
+                  From = c("Jim", "Jim", "Jim", "Jill", "Kate", "Pete", "Pete", "Jess", "Jim", "Jim", "Pete"),
+                  To = c("Carole", "Jen", "Pete", "Carole", "Joe", "Carole", "Paul", "Mark", "Cam", "Mark", "Tim")
 
-Nodes <- data.frame(
-  Name = c("Jim", "Carole", "Joe", "Michelle", "Jen", "Pete", "Paul", "Tim", "Jess", "Mark", "Jill", "Cam",                               "Kate"),
-  Experience = c(8.5, 6.5, 4.0, 1.0, 3.0, 10.0, 5.0, 5.0, 5.0, 1.0, 1.0, 6.0, 6.0))
-
-
-AsMatrix <- graph_from_data_frame(d = Edges, vertices = Nodes, directed = FALSE)
-AsMatrix
-
-
+AsMatrix <- graph_from_data_frame(d = Edgelist, vertices = Nodelist, directed = FALSE)
 plot(AsMatrix)
-
-
 Degree_Distribution <- igraph::degree(AsMatrix, mode = "total")
 ```
 
