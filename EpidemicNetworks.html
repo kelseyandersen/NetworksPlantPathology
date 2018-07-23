@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Epidemic Networks</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.co { font-style: italic; } /* Comment */
+code > span.al { font-weight: bold; } /* Alert */
+code > span.er { font-weight: bold; } /* Error */
+code > span.wa { font-style: italic; } /* Warning */
+code > span.cf { font-weight: bold; } /* ControlFlow */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.do { font-style: italic; } /* Documentation */
+code > span.an { font-style: italic; } /* Annotation */
+code > span.cv { font-style: italic; } /* CommentVar */
+code > span.in { font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Networks in Plant Pathology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Welcome</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Introduction to R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introduction to R</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Networks in R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Describing_Networks.html">Networks in R</a>
+    </li>
+    <li>
+      <a href="EpidemicNetworks.html">Epidemic Networks</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Epidemic Networks</h1>
+
+</div>
+
+
+<div id="matricies-in-r-epidemic-spread-over-time" class="section level2">
+<h2>Matricies in R: Epidemic spread over time</h2>
+<p>First, load the libraries that we will use in this module.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(igraph)
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.2.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
+## ✖ purrr::compose()       masks igraph::compose()
+## ✖ tidyr::crossing()      masks igraph::crossing()
+## ✖ dplyr::filter()        masks stats::filter()
+## ✖ dplyr::groups()        masks igraph::groups()
+## ✖ dplyr::lag()           masks stats::lag()
+## ✖ purrr::simplify()      masks igraph::simplify()</code></pre>
+<p>Using the symbol ’*‘in R multiplies each element of a matrix by the corresponding element of another matrix. This is ’element-wise multiplication’, rather than matrix multiplication.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">9</span>,<span class="dt">ncol=</span><span class="dv">3</span>)
+X1</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">21</span>:<span class="dv">29</span>,<span class="dt">ncol=</span><span class="dv">3</span>)
+X2</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   21   24   27
+## [2,]   22   25   28
+## [3,]   23   26   29</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X1 *<span class="st"> </span>X2 ## element wise multiplication</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   21   96  189
+## [2,]   44  125  224
+## [3,]   69  156  261</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X1 %*%<span class="st"> </span>X2 ## Matrix multiplication</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  270  306  342
+## [2,]  336  381  426
+## [3,]  402  456  510</code></pre>
+</div>
+<div id="matrix-multiplication" class="section level2">
+<h2>Matrix Multiplication</h2>
+<p> </p>
+<p>Matrix multipication is a concept from liner algribra that helps us work mathmatically with matricies. Unlike when adding two matricies together, we do not go element-wise when getting the product of matricies. Using matrix multiplication, we can visualize the process by which infections spread through networks over time.</p>
+<p><img src="Pictures/MatrixMult.png" alt="Above is a simple example of matrix multiplication" /><br />
+ </p>
+<p> </p>
+<div id="starting-state-vectors" class="section level3">
+<h3>Starting State Vectors</h3>
+<p>This concept is a method for infection spread over temporal networks. Note that to sucessfully perform matrix multiplication, there needs to be the same number of columns in matrix 1 as there are rows in matrix two. Let’s look at this example. The first matrix is our <em>starting state vector</em> the second is our network adjacency matrix.</p>
+<div class="figure">
+<img src="Pictures/Vector.png" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">V1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>) <span class="co"># starting vector of states</span>
+M1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="dt">ncol=</span><span class="dv">3</span>)
+M2 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(M1)
+<span class="kw">plot</span>(M2)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">V2 &lt;-<span class="st"> </span>V1 %*%<span class="st"> </span>M1 ### matrix multiplication 
+V2</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    1</code></pre>
+<p> </p>
+<p>Matrix multiplication, continued. Consider two matricie:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">9</span>,<span class="dt">ncol=</span><span class="dv">3</span>)
+A</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">ncol=</span><span class="dv">3</span>)
+B</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    1    0    1
+## [3,]    0    1    0</code></pre>
+<p> </p>
+<p>Element-wise multiplication would produce the following results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A *<span class="st"> </span>B </code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    2    0    8
+## [3,]    0    6    0</code></pre>
+<p> </p>
+<p>Matrix multiplication would produce the following results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A %*%<span class="st"> </span>B</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    5    7    4
+## [2,]    7    8    5
+## [3,]    9    9    6</code></pre>
+<p> </p>
+<p>Order matters for matrix multiplication!!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B %*%<span class="st"> </span>A</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    4   10   16
+## [3,]    2    5    8</code></pre>
+<p> </p>
+</div>
+</div>
+<div id="epidemiological-example" class="section level2">
+<h2>Epidemiological example</h2>
+<p> </p>
+<div id="spread-over-time" class="section level3">
+<h3>Spread over time</h3>
+<p>Suppose a vector indicates whether each node is infected or not, for the first time point (1=infected, 0=not infected). We call this the “starting state” vector. Again, the starting state vector must be the same size as the number of rows of the network adjacency matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Time1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>) ## call this vector &quot;Time 1&quot;
+<span class="kw">length</span>(Time1) ## vector of 10 nodes</code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(Time1) ### 5 infected</code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p> </p>
+<p>A simple adjacency matrix indicates whether disease will be transmitted or not in each time step – note that this matrix is generated stochastically so each time you repeat the below code, a slightly different matrix will be formed. This matrix is essentially your network.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Amat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">100</span>) &gt;<span class="st"> </span><span class="fl">0.7</span>, <span class="dt">ncol=</span><span class="dv">10</span>) <span class="co"># 30% chance that a link is formed between any two nodes</span>
+Amat &lt;-<span class="st"> </span>Amat*<span class="dv">1</span> ## make your logical values 1&#39;s a 0&#39;s
+<span class="kw">diag</span>(Amat) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># set the diagonals to 1 so that if a node is infected, it stays infected</span>
+Amat <span class="co"># our randomly generated matrix</span></code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    1    0    0    0    1    1    0    1    0     1
+##  [2,]    0    1    1    0    0    0    1    0    1     0
+##  [3,]    0    0    1    0    0    1    0    0    1     0
+##  [4,]    0    0    0    1    1    0    0    0    0     0
+##  [5,]    1    0    1    0    1    1    0    0    1     0
+##  [6,]    1    1    0    0    0    1    0    0    0     1
+##  [7,]    0    0    0    0    0    0    1    0    1     0
+##  [8,]    0    1    1    0    0    0    0    1    1     0
+##  [9,]    0    1    0    1    1    0    1    1    1     0
+## [10,]    1    0    0    0    1    0    0    0    0     1</code></pre>
+<p> </p>
+<p>Plot to see you network</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mat3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(Amat)
+<span class="kw">plot</span>(Mat3, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p> </p>
+<p>Think about how Mat3 will modify the infection status vector when Time1 is multiplied times Mat3<br />
+ </p>
+<p>Matrix multiplication and bind together the new status with the starting state vector. See how many became infected in the second time step.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span>Time1 %*%<span class="st"> </span>Amat  <span class="co"># here values can be greater than 1. Place in temporary object</span>
+Time2 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(temp &gt;<span class="st"> </span><span class="dv">0</span>) <span class="co"># Make 0s and 1s again</span>
+df &lt;-<span class="st"> </span><span class="kw">cbind</span>(Time1,Time2)
+df</code></pre></div>
+<pre><code>##       Time1 Time2
+##  [1,]     1     1
+##  [2,]     0     1
+##  [3,]     0     1
+##  [4,]     0     1
+##  [5,]     0     1
+##  [6,]     1     1
+##  [7,]     1     1
+##  [8,]     1     1
+##  [9,]     1     1
+## [10,]     0     1</code></pre>
+</div>
+</div>
+<div id="case-study-sweetpotato-in-uganda" class="section level2">
+<h2>Case Study: sweetpotato in Uganda</h2>
+<p> </p>
+<p>This dataset is from Andersen et al 2018 and xxx et al 2017   Some background….</p>
+<p>   </p>
+<p>First, let’s read in a simplified node and link file. The node file contains the 27 sellers that were survyed in this dataset and the links file contains the 99 villages to which they sold sweetpotato planting material in 2014.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodes &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;nodelist.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>) <span class="co">#load in node attribute file (see node attributes include color)</span>
+links &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;edgelist.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) <span class="co">#load in edge attribute file </span>
+links$weight &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(links$weight) ### weight is the average volume sold
+<span class="kw">head</span>(links) <span class="co"># check the first few lines of the link file </span></code></pre></div>
+<pre><code>##   S_ID V_ID weight
+## 1  S_1 V_30   3.00
+## 2  S_1 V_48   1.75
+## 3  S_1 V_58  23.00
+## 4  S_1 V_95   1.00
+## 5  S_1 V_98   4.75
+## 6 S_10 V_30   0.50</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(links)</code></pre></div>
+<pre><code>## [1] 205</code></pre>
+<p> </p>
+<p>Aggregate the edges so we have one edge per pair of nodes (not multiple links between the same nodes)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">edges &lt;-<span class="st"> </span><span class="kw">aggregate</span>(links$weight,links[,<span class="dv">1</span>:<span class="dv">2</span>],sum) <span class="co"># aggregate transactions and sum total volume sold</span>
+<span class="kw">head</span>(edges) <span class="co">#check edges</span></code></pre></div>
+<pre><code>##   S_ID V_ID     x
+## 1  S_2  V_1 27.75
+## 2 S_25  V_1 19.50
+## 3 S_16 V_10  3.00
+## 4 S_17 V_10  2.00
+## 5 S_18 V_10  4.00
+## 6 S_22 V_10  3.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(edges) <span class="co">#check dimensions of edges (now we have aggregated 875 transactions to 205)</span></code></pre></div>
+<pre><code>## [1] 205   3</code></pre>
+<p> </p>
+<p>Make our network!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">SweetNet &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="dt">d =</span> edges, <span class="dt">vertices =</span>  nodes, <span class="dt">directed =</span> T) <span class="co">#combine node and link files to create a directed adjaceny matrix </span>
+fix.layout &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(SweetNet) <span class="co">#fix layout so future runs will have the same layout!!</span>
+<span class="kw">plot</span>(SweetNet, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">5</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;white&#39;</span>, <span class="dt">layout=</span> fix.layout) <span class="co"># plot! (node colors are specified in the node attribute file)</span></code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-14-1.png" width="672" />   For fun, color nodes by “type”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## still without village to village connections
+<span class="kw">V</span>(SweetNet)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(nodes$Type ==<span class="st"> &quot;Buyer&quot;</span>, <span class="st">&quot;dodgerblue2&quot;</span>, <span class="st">&quot;seagreen3&quot;</span>)
+<span class="kw">plot</span>(SweetNet, <span class="dt">edge.arrow.size=</span>.<span class="dv">1</span>, <span class="dt">vertex.label.color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">vertex.size=</span><span class="dv">6</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">6</span>, <span class="dt">layout =</span> fix.layout, <span class="dt">edge.curved =</span> <span class="ot">FALSE</span>, <span class="dt">vertex.frame.color=</span><span class="kw">V</span>(SweetNet)$color)
+<span class="kw">E</span>(SweetNet)$color &lt;-<span class="st"> &quot;gray55&quot;</span>
+<span class="kw">legend</span>(<span class="dt">x=</span>-<span class="fl">1.4</span>, <span class="dt">y=</span>.<span class="dv">8</span>, <span class="kw">c</span>(<span class="st">&quot;Sellers&quot;</span>,<span class="st">&quot;Villages&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">col=</span> <span class="kw">c</span>(<span class="st">&quot;dodgerblue2&quot;</span>, <span class="st">&quot;seagreen3&quot;</span>),  <span class="dt">pt.cex=</span><span class="dv">2</span>, <span class="dt">cex=</span> .<span class="dv">8</span>, <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>, <span class="dt">ncol=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>This is great, but for this project we are interested not only in trasaction links, but also in connections between villages. In this case we will add a second set of geo-spatially derived links. These links were generated by an inverse power-law model, were links were more likely between villages that were proximate, but rare connections between villages that are far away may occur. For the sake of time, we will read in the full matrix with village-to-village links already generated.</p>
+<p>  Read in new dataset that has village-to-village links and plot to see our new (more dense!) network.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FullNet &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;sweetpotato.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+FullNet2 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(FullNet)
+FullNet3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(FullNet2)
+FullNet3</code></pre></div>
+<pre><code>## IGRAPH 706a587 DN-- 126 283 -- 
+## + attr: name (v/c)
+## + edges from 706a587 (vertex names):
+##  [1] S_1 -&gt;V_30 S_1 -&gt;V_48 S_1 -&gt;V_58 S_1 -&gt;V_95 S_1 -&gt;V_98 S_10-&gt;V_30
+##  [7] S_10-&gt;V_35 S_10-&gt;V_53 S_10-&gt;V_58 S_10-&gt;V_86 S_10-&gt;V_89 S_10-&gt;V_97
+## [13] S_10-&gt;V_98 S_11-&gt;V_30 S_11-&gt;V_35 S_11-&gt;V_53 S_11-&gt;V_58 S_11-&gt;V_86
+## [19] S_11-&gt;V_89 S_12-&gt;V_58 S_13-&gt;V_28 S_13-&gt;V_48 S_13-&gt;V_61 S_14-&gt;V_6 
+## [25] S_15-&gt;V_13 S_15-&gt;V_2  S_15-&gt;V_22 S_15-&gt;V_3  S_15-&gt;V_30 S_15-&gt;V_34
+## [31] S_15-&gt;V_36 S_15-&gt;V_37 S_15-&gt;V_39 S_15-&gt;V_40 S_15-&gt;V_48 S_15-&gt;V_52
+## [37] S_15-&gt;V_54 S_15-&gt;V_76 S_15-&gt;V_78 S_15-&gt;V_85 S_15-&gt;V_91 S_15-&gt;V_92
+## [43] S_15-&gt;V_96 S_16-&gt;V_10 S_16-&gt;V_35 S_16-&gt;V_58 S_16-&gt;V_86 S_16-&gt;V_89
+## + ... omitted several edges</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">5</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;white&#39;</span>, <span class="dt">layout=</span> fix.layout)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>  Now we can create our starting state vector. There are a number of interesting questions that we can ask. The one that we will explore here is how a single seller with infected seed can spread disease throughout the rest of the network.<br />
+ </p>
+<p>To do this, we create a starting state vector that is the same size as our full network matrix (126). Each can be considered the starting infection state of the node. Our infected node in this case will be node 18.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">### create a vector with the first node of 126 set to 1, rest zeros.
+vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">126</span>) ## vector of 126 0s 
+vec[<span class="kw">c</span>(<span class="dv">18</span>)] &lt;-<span class="st"> </span><span class="dv">1</span> ## set first vector to 1. This corresponds to the first node in our node list. This will be where our infection starts. 
+vec</code></pre></div>
+<pre><code>##   [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [36] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [71] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [106] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<p>Next, we will begin our matrix multiplication.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodenum &lt;-<span class="st"> </span><span class="dv">126</span> ## a placeholder object with the number of nodes in our network 
+nn &lt;-<span class="st"> </span>nodenum*nodenum
+<span class="kw">runif</span>(nn) &lt;<span class="st"> </span>.<span class="dv">1</span> ## runif() generates vector the size of our matrix filled with numbers drawn from the uniform distribution
+matrix_a &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span>nodenum, <span class="dt">nrow =</span> nodenum) <span class="co"># if less than .1, put 1 into the matrix if not, 0 (no spread)</span>
+matrix_a
+matrix_a &lt;-<span class="st"> </span>matrix_a*<span class="dv">1</span> ## From TRUE/FALSE back to 0s and 1s 
+matrix_a <span class="co"># matrix of links that will realize infection (10%)</span></code></pre></div>
+<p>element wise multiplication - product of random matrix and adjacency matrix</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matrix_c &lt;-<span class="st"> </span>matrix_a *<span class="st"> </span>FullNet2 ## potential links reduced to 10%, simulating a 10% chance of spread
+<span class="kw">diag</span>(matrix_c) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co">#keep infection in nodes that are infected by setting the diag to 1</span>
+matrix_c</code></pre></div>
+<p> </p>
+<p>Starting vector times new matrix</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v_1 &lt;-<span class="st"> </span>vec %*%<span class="st"> </span>matrix_c ## starting state vector and new matrix
+v_1 ## this is our state in time 2
+v_2 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_1 &gt;<span class="dv">0</span>) <span class="co"># as numeric</span>
+v_2 <span class="co"># vector of transmission at Time 1 (assuming that the virus was transmitted in 5% of transactions of variety x in 2014)</span>
+
+
+## add state in time 1 and 2 to a new tibble to save results
+
+<span class="kw">as_tibble</span>(vec)
+<span class="kw">as_tibble</span>(v_2)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2)
+timestatus</code></pre></div>
+<p> </p>
+<p>We will keep building our table of disease progress through the network over time</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">#### Now time 3
+
+
+matrix_d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">10</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec)) ## new random matrix
+matrix_d
+matrix_d &lt;-<span class="st"> </span>matrix_d*<span class="dv">1</span>
+matrix_d
+matrix_e &lt;-<span class="st"> </span>matrix_d *<span class="st"> </span>FullNet2 ## again, create 1 if less than .1 (10% chance of spread)
+<span class="kw">diag</span>(matrix_e) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_e 
+v_3 &lt;-<span class="st"> </span>v_2 %*%<span class="st"> </span>matrix_e ## multiply new matrix by state 2
+v_3
+v_3 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_3 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_3)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3)
+timestatus
+
+
+#### Time 4
+
+matrix_f &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_f &lt;-<span class="st"> </span>matrix_f *<span class="st"> </span><span class="dv">1</span>
+matrix_f &lt;-<span class="st"> </span>matrix_f *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_f) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_f
+v_4 &lt;-<span class="st"> </span>v_3 %*%<span class="st"> </span>matrix_f
+v_4
+v_4 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_4 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_4)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4)
+timestatus &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(timestatus)
+timestatus
+
+
+#### Time 5
+
+matrix_g &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_g &lt;-<span class="st"> </span>matrix_g *<span class="st"> </span><span class="dv">1</span>
+matrix_g &lt;-<span class="st"> </span>matrix_g *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_g) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_g
+v_5 &lt;-<span class="st"> </span>v_4 %*%<span class="st"> </span>matrix_g
+v_5
+v_5 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_5 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_5)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5)
+timestatus &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(timestatus)
+timestatus
+
+#### Time 6
+
+matrix_h &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_h &lt;-<span class="st"> </span>matrix_h *<span class="st"> </span><span class="dv">1</span>
+matrix_h &lt;-<span class="st"> </span>matrix_h *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_h) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_h
+v_6 &lt;-<span class="st"> </span>v_5 %*%<span class="st"> </span>matrix_h ## use the last state 
+v_6
+v_6 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_6 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_6)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5, v_6)
+timestatus &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(timestatus)
+timestatus
+
+
+#### Time 7
+
+matrix_i &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_i &lt;-<span class="st"> </span>matrix_i *<span class="st"> </span><span class="dv">1</span>
+matrix_i &lt;-<span class="st"> </span>matrix_i *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_i) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_i
+v_7 &lt;-<span class="st"> </span>v_6 %*%<span class="st"> </span>matrix_i ## use the last state 
+v_7
+v_7 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_7 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_7)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5, v_6, v_7)
+timestatus &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(timestatus)
+timestatus
+
+#### Time 8
+
+matrix_j &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_j &lt;-<span class="st"> </span>matrix_j *<span class="st"> </span><span class="dv">1</span>
+matrix_j &lt;-<span class="st"> </span>matrix_j *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_j) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_j
+v_8 &lt;-<span class="st"> </span>v_7 %*%<span class="st"> </span>matrix_j ## use the last state 
+v_8
+v_8 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_8 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_8)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5, v_6, v_7, v_8)
+timestatus &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(timestatus)
+timestatus
+
+
+#### Time 9
+
+matrix_k &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_k &lt;-<span class="st"> </span>matrix_k *<span class="st"> </span><span class="dv">1</span>
+matrix_k &lt;-<span class="st"> </span>matrix_k *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_k) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_k
+v_9 &lt;-<span class="st"> </span>v_8 %*%<span class="st"> </span>matrix_k ## use the last state 
+v_9
+v_9 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_9 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_9)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5, v_6, v_7, v_8, v_9)
+timestatus &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(timestatus)
+timestatus
+
+
+#### Time 10
+
+matrix_l &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;.<span class="dv">1</span>, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+matrix_l &lt;-<span class="st"> </span>matrix_l *<span class="st"> </span><span class="dv">1</span>
+matrix_l &lt;-<span class="st"> </span>matrix_l *<span class="st"> </span>FullNet2
+<span class="kw">diag</span>(matrix_l) &lt;-<span class="st"> </span><span class="dv">1</span>
+matrix_l
+v_10 &lt;-<span class="st"> </span>v_9 %*%<span class="st"> </span>matrix_l ## use the last state 
+v_10
+v_10 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(v_10 &gt;<span class="st"> </span><span class="dv">0</span>)
+<span class="kw">as_tibble</span>(v_10)
+timestatus &lt;-<span class="st"> </span><span class="kw">cbind</span>(nodes, vec, v_2, v_3, v_4, v_5, v_6, v_7, v_8, v_9, v_10)
+timestatus &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(timestatus)
+timestatus</code></pre></div>
+<p>Graph network over all 10 time steps and see where the infection spread!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(FullNet3)
+<span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$vec ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_2 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_3 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_4 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_5 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_6 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_7 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_8 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-8.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_9 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-9.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_10 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-10.png" width="672" /></p>
+<p>Plot the number of nodes infected over time with Node 1 as starting node</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">timestatus1 &lt;-<span class="st"> </span>timestatus %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&#39;vec&#39;</span>, <span class="st">&#39;v_2&#39;</span>, <span class="st">&#39;v_3&#39;</span>, <span class="st">&#39;v_4&#39;</span>, <span class="st">&#39;v_5&#39;</span>, <span class="st">&#39;v_6&#39;</span>, <span class="st">&#39;v_7&#39;</span>, <span class="st">&#39;v_8&#39;</span>, <span class="st">&#39;v_9&#39;</span>, <span class="st">&#39;v_10&#39;</span>, <span class="dt">key =</span> <span class="st">&quot;Timestep&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;Status&quot;</span> )
+<span class="kw">head</span>(timestatus1) ## clean up data so status is not in columns</code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   node  Type  Timestep Status
+##   &lt;fct&gt; &lt;fct&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 S_1   Buyer vec          0.
+## 2 S_10  Buyer vec          0.
+## 3 S_11  Buyer vec          0.
+## 4 S_12  Buyer vec          0.
+## 5 S_13  Buyer vec          0.
+## 6 S_14  Buyer vec          0.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## sum the number of nodes infected at each time point
+times1 &lt;-<span class="st"> </span>timestatus1 %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(Timestep) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">Number_of_Nodes =</span> <span class="kw">sum</span>(Status, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  ) 
+
+## plot number of nodes over 10 time steps
+<span class="kw">ggplot</span>(<span class="dt">data =</span> times1, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="kw">reorder</span>(Timestep, Number_of_Nodes), <span class="dt">y =</span> Number_of_Nodes)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-23-1.png" width="672" />    </p>
+<p>But what if we want to run this over many simulations? We can’t keep repeating the same code! Use this function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DiseaseSpreadFUN &lt;-<span class="st"> </span>function(k, startnode, nodenum, p){
+  nn &lt;-<span class="st"> </span>nodenum*nodenum
+  k &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(k)
+  <span class="kw">diag</span>(k) &lt;-<span class="dv">1</span>
+  vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, nodenum)
+  vec[<span class="kw">c</span>(startnode)] &lt;-<span class="st"> </span><span class="dv">1</span>
+  NodesNew &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">126</span>,<span class="dv">20</span>*<span class="dv">100</span>) <span class="co"># make a dataframe large enough for 20 times steps, 100 simulations</span>
+  Vec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(vec,<span class="dv">22</span>),<span class="dv">22</span>,<span class="dt">byrow =</span> T) <span class="co">#vector of infection states after each time step</span>
+  Status &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  Step &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  Sim &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  
+  for(j in <span class="dv">1</span>:<span class="dv">100</span>){ ## number of simulations 
+    Sim &lt;-<span class="st"> </span><span class="kw">c</span>(Sim,<span class="kw">rep</span>(j,nodenum*<span class="dv">20</span>)) ## number of time steps
+    
+    for(i in <span class="dv">1</span>:<span class="dv">20</span>){
+      MatrixRun &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;<span class="st"> </span>p, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+      MatrixRun &lt;-<span class="st"> </span>MatrixRun*<span class="dv">1</span>
+      MatrixRun &lt;-<span class="st"> </span>MatrixRun*k
+      MatrixRun[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">17</span>, <span class="dv">19</span>:<span class="dv">27</span>),<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">17</span>, <span class="dv">19</span>:<span class="dv">27</span>)] &lt;-<span class="st"> </span><span class="dv">0</span> ## if we want to keep the infection from spreading to other sellers, we need to set them to 0 
+      <span class="kw">diag</span>(MatrixRun) &lt;-<span class="st"> </span><span class="dv">1</span>
+      Vec[i<span class="dv">+1</span>,] &lt;-<span class="st"> </span>Vec[i,] %*%<span class="st"> </span>MatrixRun 
+      Vec[i<span class="dv">+1</span>,] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(Vec[i<span class="dv">+1</span>,] &gt;<span class="st"> </span><span class="dv">0</span>) 
+      Status &lt;-<span class="st"> </span><span class="kw">c</span>(Status ,Vec[i<span class="dv">+1</span>,])
+      Step &lt;-<span class="st"> </span><span class="kw">c</span>(Step, <span class="kw">rep</span>(i, <span class="dv">126</span>))
+    }
+  }
+  temp &lt;-<span class="st"> </span><span class="kw">cbind</span>(NodesNew,Sim, Step, Status)
+  temp &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(temp)
+  out &lt;-<span class="st"> </span>temp %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Sim, Step) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">Number_of_Nodes =</span> <span class="kw">sum</span>(Status))
+  <span class="kw">return</span>(out)
+}</code></pre></div>
+<p>  Run new function and review output</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">DiseaseSpreadFUN</span>(FullNet2, <span class="dv">18</span>, <span class="dv">126</span>, .<span class="dv">1</span>)
+A</code></pre></div>
+<pre><code>## # A tibble: 2,000 x 3
+## # Groups:   Sim [?]
+##      Sim  Step Number_of_Nodes
+##    &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
+##  1    1.    1.              5.
+##  2    1.    2.              9.
+##  3    1.    3.             12.
+##  4    1.    4.             13.
+##  5    1.    5.             17.
+##  6    1.    6.             18.
+##  7    1.    7.             23.
+##  8    1.    8.             25.
+##  9    1.    9.             32.
+## 10    1.   10.             34.
+## # ... with 1,990 more rows</code></pre>
+<p>  Plot!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) ## I choose to use ggplot here 
+
+p &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> A, <span class="dt">mapping =</span> (<span class="kw">aes</span>(<span class="dt">x =</span> Step, <span class="dt">y =</span> Number_of_Nodes))) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) +
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>) +
+<span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">24</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Timestep&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Nodes Infected&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>),
+                     <span class="dt">label =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>)) 
+p</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

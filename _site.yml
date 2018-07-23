@@ -10,9 +10,11 @@ navbar:
     - text: Introduction to R
       href: ~
   - text: Networks in R
-    menu: ~
-    - text: 
-      href: ~
+    menu:
+    - text: Networks in R
+      href: Describing_Networks.html
+    - text: Epidemic Networks
+      href: EpidemicNetworks.html
 output:
   html_document:
     theme: flatly

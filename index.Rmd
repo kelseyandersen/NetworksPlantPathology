@@ -7,14 +7,26 @@ title: "Welcome!"
 
 Networks are a key component of plant pathology, and understanding them supports genetics, microbiome science, and epidemiology. This workshop will prepare participants to interpret network analyses, and will provide participants with experience in network analysis for several representative data sets. The learning goals for this workshop are for participants to (1) understand basic ideas in network science, and (2) gain practice in network analysis with examples including microbiome networks, epidemic networks, and networks of the spread of technologies. The workshop will use the R programming environment, and will provide a brief introduction to R.
 
+### Workshop Logistics   
+\  
 
+#### WORKSHOP: Network Analysis in Plant Pathology  
+#### Sunday, July 29th 1:00pm-5:00pm  
+#### Hynes Convention Center - Room 203  
 
-### Set Up
+\  
+
+### Pre-Workshop Set Up
 
 Make sure you have the most recent versions of R and R Studio Installed on your computer.  
-+ R can be downloaded at xxx
-+ R Studio can be downloaded for free at xxxx
 
-Also, it would be useful to download the following packages prior to the workshop:
-+ Tidyverse 
-+ iGraph
+* R can be downloaded at xxx  
+* R Studio can be downloaded for free at xxxx  
+
+Also, it would be useful to download the following packages prior to the workshop:  
+
+* Tidyverse   
+* iGraph  
+
+
+![](Pictures/IFAS.png)

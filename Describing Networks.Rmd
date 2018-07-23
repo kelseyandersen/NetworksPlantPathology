@@ -1,0 +1,164 @@
+---
+title: "Visualizing and Describing Networks"
+---
+
+## Networks with igraph 
+
+First, make sure you have loaded package *igraph*. 
+```{r}
+library(igraph)
+```
+
+First, create a simple adjacency matrix with three rows and three columns 
+```{r}
+mat1 <- matrix(c(0, 1, 0, 0, 0, 1, 1,0, 0), nrow=3, ncol=3) ### matrix function 
+mat1
+```
+
+
+Use igraph function graph_from_adjacency_matrix() to create a network object from your graph. Use plot function to plot. 
+```{r}
+mat2 <- graph_from_adjacency_matrix(mat1)
+plot(mat2, edge.arrow.size = 1) ## set the size of the arrows 
+```
+
+Alternatively, create the network by telling igraph what links you have 
+
+```{r}
+mat3 <- graph( edges=c(1,3, 3,2, 2,1), n=3, directed=T ) # use graph function and list edges 
+plot(mat3, edge.arrow.size = 1)
+```
+
+## Network Aestetics
+Many parts of a network can be sized and colored to help communicate results more clearly. 
+
+```{r}
+plot(mat3, edge.arrow.size = 1, vertex.color = "purple", vertex.size = 20, vertex.label.cex = 2, vertex.label.dist = 3.5)
+
+```
+
+
+
+
+
+### Describing networks
+
+
+Use igraph "graph" function to plot directly as igraph object. 
+```{r}
+g1 <- graph( edges=c(1,3, 3,2, 2,1), n=3, directed=T ) 
+g1
+plot(g1, edge.arrow.size = .5)
+```
+
+Undirected
+```{r}
+g2 <- graph(edges = c(1,3, 1,2, 1,4, 2,4), n = 4, directed = F)
+g2
+plot(g2, edge.arrow.size = .5)
+```
+
+Graph Density, diameter, mean path length
+```{r}
+igraph::graph.density(g2) #graph density 
+diameter(g2) # diameter
+mean_distance(g2) ##mean path length
+```
+
+directed graph
+```{r}
+g3 <- graph(edges = c(1,3, 1,2, 1,4, 2,4), n = 4, directed = T)
+g3
+plot(g3, edge.arrow.size = .7)
+```
+
+
+Toy example for betweenness centrality 
+```{r}
+g5 <- graph(edges = c(1,2, 2,3, 3,4, 4,5), n = 5, directed = F)
+plot(g5, vertex.label.cex = .0001)
+```
+
+
+```{r}
+igraph::closeness(g2, vids = V(g2), normalized = TRUE)
+igraph::closeness(g2, vids = V(g2), normalized = FALSE)
+igraph::betweenness(g2)
+```
+
+Geodesic
+```{r}
+Geodesic <- igraph::distances(g2)
+Geodesic ## geodesic matrix
+hist(Geodesic)
+```
+
+degree distribution
+```{r}
+Degree_Distribution <- igraph::degree(g3, mode = "total")
+hist(Degree_Distribution, xlab = "Node Degree") #all
+
+degIn <- igraph::degree(g3, mode = "in") #in
+degOut <- igraph::degree(g3, mode = "out") #out
+
+hist(Degree_Distribution, xlab = "Node Degree") 
+hist(degIn, xlab = "Node Degree")
+hist(degOut, xlab = "Node Degree")
+```
+
+
+```{r}
+igraph::vertex_connectivity(g2)
+igraph::transitivity(g2)
+```
+
+
+back to our class example 
+```{r}
+Edges <- data.frame(
+  From =c("Jim", "Jim", "Jim", "Jim", "Carole", "Carole", "Carole", "Joe", "Joe", "Joe", "Michelle", "Michelle", "Jen", "Jim"),
+  To = c("Carole", "Joe", "Mark", "Jill", "Jen", "Pete", "Paul", "Jill", "Cam", "Kate", "Jill", "Tim" , "Cam", "Jess"))
+
+Nodes <- data.frame(
+  Name = c("Jim", "Carole", "Joe", "Michelle", "Jen", "Pete", "Paul", "Tim", "Jess", "Mark", "Jill", "Cam",                               "Kate"),
+  Experience = c(8.5, 6.5, 4.0, 1.0, 3.0, 10.0, 5.0, 5.0, 5.0, 1.0, 1.0, 6.0, 6.0))
+
+
+AsMatrix <- graph_from_data_frame(d = Edges, vertices = Nodes, directed = FALSE)
+AsMatrix
+
+
+plot(AsMatrix)
+
+
+Degree_Distribution <- igraph::degree(AsMatrix, mode = "total")
+```
+
+same number of nodes and links
+```{r}
+new1 <- sample_gnm(13, 14, directed = FALSE, loops = FALSE)
+h1<- igraph::degree(new1)
+hist(h1)
+```
+
+
+run that n number of times 
+```{r}
+degamat <- NULL
+n <- 50
+for(i in 1:n){
+  newmatrix <- sample_gnm(13,14, directed = FALSE, loops = FALSE)
+  degmat <- igraph::degree(newmatrix)
+  degamat<-rbind(degamat,degmat)
+}
+degamat
+
+hist(degamat, xlim = c(0,7), breaks = 7)
+```
+
+```{r}
+par(mfrow=c(1,1),
+    mar=c(2,2,2,2))
+hist(Degree_Distribution, xlab = "Node Degree", xlim = c(0,7), breaks = 3, main = "Observed")
+hist(degamat, xlim = c(0,7), breaks = 7, xlab = "Node Degree", main = "Simulated")
+```
