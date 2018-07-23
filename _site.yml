@@ -15,6 +15,10 @@ navbar:
       href: Describing_Networks.html
     - text: Epidemic Networks
       href: EpidemicNetworks.html
+    - text: Microbiome Networks 
+      href: ~
+  - text: Additional Resources
+    href: ~
 output:
   html_document:
     theme: flatly
