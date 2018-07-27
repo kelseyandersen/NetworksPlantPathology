@@ -210,15 +210,16 @@ igraph::transitivity(g2)
 
 back to our farmer example 
 ```{r}
+library(igraph)
 Nodelist <- data.frame(
                     Names =c("Jim", "Carole", "Joe", "Michelle", "Jen", "Pete", "Paul", "Tim", 
                             "Jess", "Mark", "Jill", "Cam", "Kate") ,
                     YearsFarming = c(8.5, 6.5, 4, 1, 3, 10, 5, 5, 5, 1, 1, 6, 6) , 
                     Age = c(22, 31, 25, 21, 22, 35, 42, 27, 26, 33, 26, 28, 22) , 
-                    Gender = c("Male", "Female", "Male", "Female", "Female", "Male","Male","Male", "Female", "Male", "Female", "Male"))
+                    Gender = c("Male", "Female", "Male", "Female", "Female", "Male","Male","Male", "Female", "Male", "Female", "Male", "Female"))
 Edgelist <- data.frame(
                   From = c("Jim", "Jim", "Jim", "Jill", "Kate", "Pete", "Pete", "Jess", "Jim", "Jim", "Pete"),
-                  To = c("Carole", "Jen", "Pete", "Carole", "Joe", "Carole", "Paul", "Mark", "Cam", "Mark", "Tim")
+                  To = c("Carole", "Jen", "Pete", "Carole", "Joe", "Carole", "Paul", "Mark", "Cam", "Mark", "Tim"))
 
 AsMatrix <- graph_from_data_frame(d = Edgelist, vertices = Nodelist, directed = FALSE)
 plot(AsMatrix)
