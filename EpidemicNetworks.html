@@ -346,8 +346,16 @@ div.tocify {
 <div id="matricies-in-r-epidemic-spread-over-time" class="section level2">
 <h2>Matricies in R: Epidemic spread over time</h2>
 <p>First, load the libraries that we will use in this module.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(igraph)
-<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(igraph)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.4
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
@@ -464,16 +472,16 @@ Amat &lt;-<span class="st"> </span>Amat*<span class="dv">1</span> ## make your l
 <span class="kw">diag</span>(Amat) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># set the diagonals to 1 so that if a node is infected, it stays infected</span>
 Amat <span class="co"># our randomly generated matrix</span></code></pre></div>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-##  [1,]    1    0    1    1    0    0    1    0    1     0
-##  [2,]    0    1    0    1    0    0    0    0    0     0
-##  [3,]    1    0    1    1    0    0    0    0    1     1
-##  [4,]    0    0    1    1    0    0    0    1    0     0
-##  [5,]    0    1    1    1    1    0    0    0    0     1
-##  [6,]    0    0    0    0    0    1    0    0    0     1
-##  [7,]    0    0    0    0    0    0    1    0    0     0
-##  [8,]    0    0    0    0    0    0    1    1    0     0
-##  [9,]    0    1    1    0    0    1    1    1    1     0
-## [10,]    0    0    0    1    0    0    0    0    1     1</code></pre>
+##  [1,]    1    0    0    0    1    0    0    0    0     1
+##  [2,]    0    1    0    1    0    1    0    1    1     0
+##  [3,]    0    1    1    0    0    0    0    1    1     1
+##  [4,]    1    1    0    1    0    0    0    0    1     0
+##  [5,]    1    0    0    0    1    0    0    0    1     0
+##  [6,]    1    0    1    0    1    1    0    0    1     0
+##  [7,]    1    0    0    0    0    1    1    1    0     1
+##  [8,]    0    0    0    1    1    0    0    1    0     0
+##  [9,]    0    1    0    0    0    1    0    0    1     0
+## [10,]    1    0    0    0    0    0    0    0    0     1</code></pre>
 <p> </p>
 <p>Plot to see you network</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mat3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(Amat)
@@ -492,7 +500,7 @@ df</code></pre></div>
 ##  [2,]     0     1
 ##  [3,]     0     1
 ##  [4,]     0     1
-##  [5,]     0     0
+##  [5,]     0     1
 ##  [6,]     1     1
 ##  [7,]     1     1
 ##  [8,]     1     1
@@ -506,6 +514,10 @@ df</code></pre></div>
 <p>This dataset is from Andersen et al 2018 and xxx et al 2017   Some background….</p>
 <p>   </p>
 <p>First, let’s read in a simplified node and link file. The node file contains the 27 sellers that were survyed in this dataset and the links file contains the 99 villages to which they sold sweetpotato planting material in 2014.</p>
+<p> </p>
+<p><a href="otudata.csv">nodelist.csv</a><br />
+<a href="otu_taxonomy.csv">edgelist.csv</a></p>
+<p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodes &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;nodelist.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>) <span class="co">#load in node attribute file (see node attributes include color)</span>
 links &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;edgelist.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) <span class="co">#load in edge attribute file </span>
 links$weight &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(links$weight) ### weight is the average volume sold
@@ -550,9 +562,9 @@ fix.layout &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(
 FullNet2 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(FullNet)
 FullNet3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(FullNet2)
 FullNet3</code></pre></div>
-<pre><code>## IGRAPH 2d709fe DN-- 126 283 -- 
+<pre><code>## IGRAPH 4d39526 DN-- 126 283 -- 
 ## + attr: name (v/c)
-## + edges from 2d709fe (vertex names):
+## + edges from 4d39526 (vertex names):
 ##  [1] S_1 -&gt;V_30 S_1 -&gt;V_48 S_1 -&gt;V_58 S_1 -&gt;V_95 S_1 -&gt;V_98 S_10-&gt;V_30
 ##  [7] S_10-&gt;V_35 S_10-&gt;V_53 S_10-&gt;V_58 S_10-&gt;V_86 S_10-&gt;V_89 S_10-&gt;V_97
 ## [13] S_10-&gt;V_98 S_11-&gt;V_30 S_11-&gt;V_35 S_11-&gt;V_53 S_11-&gt;V_58 S_11-&gt;V_86
@@ -827,16 +839,16 @@ A</code></pre></div>
 ## # Groups:   Sim [?]
 ##      Sim  Step Number_of_Nodes
 ##    &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
-##  1    1.    1.              8.
-##  2    1.    2.              8.
-##  3    1.    3.             15.
-##  4    1.    4.             19.
-##  5    1.    5.             23.
+##  1    1.    1.              5.
+##  2    1.    2.             11.
+##  3    1.    3.             12.
+##  4    1.    4.             21.
+##  5    1.    5.             24.
 ##  6    1.    6.             26.
 ##  7    1.    7.             28.
-##  8    1.    8.             34.
-##  9    1.    9.             35.
-## 10    1.   10.             37.
+##  8    1.    8.             29.
+##  9    1.    9.             30.
+## 10    1.   10.             30.
 ## # ... with 1,990 more rows</code></pre>
 <p>  Plot!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) ## I choose to use ggplot here 

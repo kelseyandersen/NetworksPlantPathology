@@ -139,6 +139,15 @@ Some background....
 
 
 First, let's read in a simplified node and link file. The node file contains the 27 sellers that were survyed in this dataset and the links file contains the 99 villages to which they sold sweetpotato planting material in 2014. 
+
+\  
+
+[nodelist.csv](otudata.csv)  
+[edgelist.csv](otu_taxonomy.csv)
+
+\  
+
+
 ```{r}
 nodes <- read.csv("nodelist.csv", header=TRUE) #load in node attribute file (see node attributes include color)
 links <- read.csv("edgelist.csv", header = TRUE) #load in edge attribute file 

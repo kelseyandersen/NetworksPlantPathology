@@ -361,7 +361,11 @@ library(igraph)
 library(Hmisc)  
 # install.packages(&quot;Matrix&quot;) # uncomment this line in order to install this package
 library(Matrix)   </code></pre>
-<p>Loading the data, we are going to load two tables [comma separated value or <code>csv</code> format], using the command <code>read.csv()</code>, we either could call the file following the PATH or use the command <code>file.choose()</code>, select the files <code>otudata.csv</code> and <code>otu_taxonomy.csv</code>.</p>
+<p>Loading the data, we are going to load two tables [comma separated value or <code>csv</code> format], using the command <code>read.csv()</code>, we either could call the file following the PATH or use the command <code>file.choose()</code>, select the files <code>otudata.csv</code> and <code>otu_taxonomy.csv</code>. If you have not already, you can download the files here:</p>
+<p> </p>
+<p><a href="otudata.csv" class="uri">otudata.csv</a><br />
+<a href="otu_taxonomy.csv" class="uri">otu_taxonomy.csv</a></p>
+<p> </p>
 <pre><code># Load the data with the OTU table: otudata.csv
 otu.table&lt;-read.csv(file.choose(), header=T, row.names = 1)
 

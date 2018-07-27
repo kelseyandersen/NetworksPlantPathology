@@ -15,10 +15,10 @@ navbar:
       href: Describing_Networks.html
     - text: Epidemic Networks
       href: EpidemicNetworks.html
-    - text: Microbiome Networks 
+    - text: Microbiome Networks
       href: Microbiome_ws_ICPP_2018.html
   - text: Additional Resources
-    menu: 
+    menu:
     - text: Misc
       href: ~
 output:

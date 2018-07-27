@@ -30,7 +30,15 @@ library(Hmisc)
 # install.packages("Matrix") # uncomment this line in order to install this package
 library(Matrix)   
 ```
-Loading the data, we are going to load two tables [comma separated value or ```csv``` format], using the command ```read.csv()```, we either could call the file following the PATH or use the command ```file.choose()```, select the files ```otudata.csv``` and ```otu_taxonomy.csv```.
+Loading the data, we are going to load two tables [comma separated value or ```csv``` format], using the command ```read.csv()```, we either could call the file following the PATH or use the command ```file.choose()```, select the files ```otudata.csv``` and ```otu_taxonomy.csv```.  If you have not already, you can download the files here:  
+
+\  
+
+[otudata.csv](otudata.csv)  
+[otu_taxonomy.csv](otu_taxonomy.csv)
+
+\  
+
 
 ```
 # Load the data with the OTU table: otudata.csv
