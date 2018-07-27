@@ -20,8 +20,8 @@ Networks are a key component of plant pathology, and understanding them supports
 
 Make sure you have the most recent versions of R and R Studio Installed on your computer.  
 
-* R can be downloaded at xxx  
-* R Studio can be downloaded for free at xxxx  
+* R can be downloaded at [cran.r-project.org](https://cran.r-project.org/)
+* R Studio can be downloaded for free at [www.rstudio.com](https://www.rstudio.com/products/rstudio/download/)
 
 Also, it would be useful to download the following packages prior to the workshop:  
 
