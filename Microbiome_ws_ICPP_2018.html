@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Alcala &amp; Poudel" />
+
+
+<title>Microbiome Networks</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.co { font-style: italic; } /* Comment */
+code > span.al { font-weight: bold; } /* Alert */
+code > span.er { font-weight: bold; } /* Error */
+code > span.wa { font-style: italic; } /* Warning */
+code > span.cf { font-weight: bold; } /* ControlFlow */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.do { font-style: italic; } /* Documentation */
+code > span.an { font-style: italic; } /* Annotation */
+code > span.cv { font-style: italic; } /* CommentVar */
+code > span.in { font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Networks in Plant Pathology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Welcome</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Introduction to R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introduction to R</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Networks in R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Describing_Networks.html">Networks in R</a>
+    </li>
+    <li>
+      <a href="EpidemicNetworks.html">Epidemic Networks</a>
+    </li>
+    <li class="dropdown-header">Microbiome Networks</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Additional Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Misc</li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Microbiome Networks</h1>
+<h4 class="author"><em>Alcala &amp; Poudel</em></h4>
+<h4 class="date"><em>7/24/2018</em></h4>
+
+</div>
+
+
+<div id="metagenomics" class="section level2">
+<h2>Metagenomics</h2>
+<p>Metagenomics is the study of environmental communities using high-througput sequencing (HTS) from samples recovered directly from the environment, there is no need for culture the organism for its identification. The genetic or genomic information is used to characterize the diversity of organism, per example the use of the small ribosomal subunit <strong>18S</strong> for <strong>nematodes</strong>, the nuclear ribosomal internal trasncribed spacer (<strong>ITS</strong>) for <strong>fungi</strong>, or the ribosomal small subunit <strong>16S</strong> for <strong>bacteria</strong>, or sequencing of <strong>viral nucleic acids</strong> recovered from infected host, or virion purification or enrichment of replicative forms RNA.</p>
+<p>The sampling depdends on the organism of study, it could be leaves, roots, soil, etc. The isolation of nucleic acids for HTS is crucial, high abundance and good quality is required. The vast options of sequencing methods, Illumina sequencing, produces the largest number of reads with the highest quality among the different technologies. Usually, the number of reads yielded from HTS goes up to millions, bioinformatic skills and powerful computers are usually helpful. There are many bioinformatic pipeline available online, or servers that could help you analyze your data, however, this workshop is designed for the analysis of networks based on the metagenomic data.<br />
+A good experimental desing is important in order to get a better understanding and confidence of your model system.</p>
+</div>
+<div id="r-time" class="section level2">
+<h2>R time!</h2>
+<p>Install the following packages (if you haven’t), and load the following libraries.</p>
+<pre><code># install.packages(&quot;igraph&quot;) # uncomment this line in order to install this package
+library(igraph)  
+# install.packages(&quot;Hmisc&quot;) # uncomment this line in order to install this package
+library(Hmisc)  
+# install.packages(&quot;Matrix&quot;) # uncomment this line in order to install this package
+library(Matrix)   </code></pre>
+<p>Loading the data, we are going to load two tables [comma separated value or <code>csv</code> format], using the command <code>read.csv()</code>, we either could call the file following the PATH or use the command <code>file.choose()</code>, select the files <code>otudata.csv</code> and <code>otu_taxonomy.csv</code>.</p>
+<pre><code># Load the data with the OTU table: otudata.csv
+otu.table&lt;-read.csv(file.choose(), header=T, row.names = 1)
+
+# Read taxonomy file associated with OTU table into new object: otu_taxonomy.csv
+tax&lt;-read.csv(file.choose(),header=T, row.names = 1)</code></pre>
+<p>Using the command <code>dim()</code> we can check the dimensions of the data.frame.<br />
+Columns are samples, and rows are operative taxonomic units [OTUs].</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(otu.table)</code></pre></div>
+<pre><code>## [1]  112 3052</code></pre>
+<p>Filtering low abundant OTUs, maintaining OTUs with more than 10 read counts</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">otu.table.filter &lt;-<span class="st"> </span>otu.table[ ,<span class="kw">colSums</span>(otu.table) &gt;=<span class="st"> </span><span class="dv">10</span>]</code></pre></div>
+<p>We can compare the initial number of OTUs, and after discarding low read count.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">c</span>(<span class="kw">ncol</span>(otu.table),<span class="st">&quot;versus&quot;</span>,<span class="kw">ncol</span>(otu.table.filter)))</code></pre></div>
+<pre><code>## [1] &quot;3052&quot;   &quot;versus&quot; &quot;2572&quot;</code></pre>
+</div>
+<div id="correlation-matrices" class="section level1">
+<h1>Correlation matrices</h1>
+<p>Calculating the “Spearman” correlation coefficient between OTUs using the function <code>rcorr()</code>. A list will be created from, with three elements, <code>r</code> for correlations, <code>n</code> for the number of observations and <code>P</code> for the p-values. [If you are curious type <code>?rcorr()</code> to explore the coefficient options].</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">otu.cor &lt;-<span class="st"> </span><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(otu.table.filter), <span class="dt">type=</span><span class="st">&quot;spearman&quot;</span>)</code></pre></div>
+<p>To obtain the p-value information from the list, use <code>otu.cor$P</code>, using the function <code>forceSymmetric()</code> to assign self-correlation as <code>NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">otu.pval &lt;-<span class="st"> </span><span class="kw">forceSymmetric</span>(otu.cor$P) <span class="co"># Self-correlation as NA</span></code></pre></div>
+<p>Select only the taxa for the filtered OTUs by using rownames of otu.pval</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sel.tax &lt;-<span class="st"> </span>tax[<span class="kw">rownames</span>(otu.pval),,drop=<span class="ot">FALSE</span>]</code></pre></div>
+<p>Sanity check</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(<span class="kw">rownames</span>(sel.tax), <span class="kw">rownames</span>(otu.pval))</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Filter the association based on p-values and level of correlations</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p.yes &lt;-<span class="st"> </span>otu.pval&lt;<span class="fl">0.05</span></code></pre></div>
+<p>Select the r values for the filter probality of &lt; 0.5.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r.val =<span class="st"> </span>otu.cor$r <span class="co"># select all the correlation values </span>
+p.yes.r &lt;-<span class="st"> </span>r.val*p.yes <span class="co"># only select correlation values based on p-value criterion </span></code></pre></div>
+<p>Select OTUs by level of correlation</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p.yes.r &lt;-<span class="st"> </span><span class="kw">abs</span>(p.yes.r)&gt;<span class="fl">0.75</span> <span class="co"># output is logical vector</span>
+p.yes.rr &lt;-<span class="st"> </span>p.yes.r*r.val <span class="co"># use logical vector for subscripting.</span></code></pre></div>
+<p>Create an adjacency matrix</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjm &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(p.yes.rr)</code></pre></div>
+<p>Add taxonomic information from the metadata associated with adjacency matrix</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(adjm) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(sel.tax$Family)
+<span class="kw">rownames</span>(adjm) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(sel.tax$Family)</code></pre></div>
+</div>
+<div id="network-analysis" class="section level1">
+<h1>Network analysis</h1>
+<p>RAVIN INTRO TO MICROBIOME NETWORKS</p>
+<p><strong>iGraph</strong> can create graph objects from different sources like <code>data.frame</code>, <code>edge.list</code>, or from <code>adjacency.matrix</code>.<br />
+The function <code>graph.adjacency</code> creates a graph object from adjacency matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">net.grph=<span class="kw">graph.adjacency</span>(adjm,<span class="dt">mode=</span><span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted=</span><span class="ot">TRUE</span>,<span class="dt">diag=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p>Obtaining edge weight based on the Spearman correlation</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">edgew&lt;-<span class="kw">E</span>(net.grph)$weight</code></pre></div>
+<p>Creating a vector to remove the isolated nodes (nodes with no interactions)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bad.vs&lt;-<span class="kw">V</span>(net.grph)[<span class="kw">degree</span>(net.grph) ==<span class="st"> </span><span class="dv">0</span>] </code></pre></div>
+<p>Removing the isolated nodes from the graph object using the function <code>delete.vertices()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">net.grph &lt;-<span class="kw">delete.vertices</span>(net.grph, bad.vs)</code></pre></div>
+</div>
+<div id="plot-the-graph-object" class="section level1">
+<h1>Plot the graph object</h1>
+<p>Networks are plotted with the function <code>plot()</code>from <strong>iGraph</strong>. The size of the vertex or the edge widht can be assigned directly to the graph object or in the plot function with <code>vertex.size</code> or <code>edge.width</code>. The <code>layout</code> of the network can be selected as well, each layout has particular characteristics that can be modified or tuned for your data set.<br />
+Other characteristics can adjusted within the function <code>plot()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(net.grph,
+    <span class="dt">vertex.size=</span><span class="dv">8</span>,
+    <span class="dt">vertex.frame.color=</span><span class="st">&quot;black&quot;</span>,
+    <span class="dt">edge.curved=</span>F,
+    <span class="dt">edge.width=</span><span class="fl">1.5</span>,
+    <span class="dt">layout=</span>layout.fruchterman.reingold,
+    <span class="co">#layout=layout_with_dh(net.grph, weight.node.dist = sqrt(20)),</span>
+    <span class="dt">edge.color=</span><span class="kw">ifelse</span>(edgew &lt;<span class="st"> </span><span class="dv">0</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>),
+    <span class="dt">vertex.label=</span><span class="ot">NA</span>,
+    <span class="dt">vertex.label.color=</span><span class="st">&quot;black&quot;</span>,
+    <span class="dt">vertex.label.family=</span><span class="st">&quot;Times New Roman&quot;</span>,
+    <span class="dt">vertex.label.font=</span><span class="dv">2</span>)</code></pre></div>
+<p><img src="Microbiome_ws_ICPP_2018_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

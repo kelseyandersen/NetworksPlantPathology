@@ -1,0 +1,142 @@
+---
+title: "Microbiome Networks"
+author: "Alcala & Poudel"
+date: "7/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#setwd("/Users/ricardoialcala/Documents/Documents-ehecatl/UFL/+UniversityofFlorida/Talks/Workshop_ICPP2018/")
+library(igraph)  
+library(Hmisc)  
+library(Matrix)  
+```
+
+## Metagenomics
+Metagenomics is the study of environmental communities using high-througput sequencing (HTS) from samples recovered directly from the environment, there is no need for culture the organism for its identification. The genetic or genomic information is used to characterize the diversity of organism, per example the use of the small ribosomal subunit **18S** for **nematodes**, the nuclear ribosomal internal trasncribed spacer (**ITS**) for **fungi**, or the ribosomal small subunit **16S** for **bacteria**, or sequencing of **viral nucleic acids** recovered from infected host, or virion purification or enrichment of replicative forms RNA.   
+
+The sampling depdends on the organism of study, it could be leaves, roots, soil, etc. The isolation of nucleic acids for HTS is crucial, high abundance and good quality is required. The vast options of sequencing methods, Illumina sequencing, produces the largest number of reads with the highest quality among the different technologies. Usually, the number of reads yielded from HTS goes up to millions, bioinformatic skills and powerful computers are usually helpful. There are many bioinformatic pipeline available online, or servers that could help you analyze your data, however, this workshop is designed for the analysis of networks based on the metagenomic data.     
+A good experimental desing is important in order to get a better understanding and confidence of your model system.
+
+
+## R time!
+Install the following packages (if you haven't), and load the following libraries.
+```
+# install.packages("igraph") # uncomment this line in order to install this package
+library(igraph)  
+# install.packages("Hmisc") # uncomment this line in order to install this package
+library(Hmisc)  
+# install.packages("Matrix") # uncomment this line in order to install this package
+library(Matrix)   
+```
+Loading the data, we are going to load two tables [comma separated value or ```csv``` format], using the command ```read.csv()```, we either could call the file following the PATH or use the command ```file.choose()```, select the files ```otudata.csv``` and ```otu_taxonomy.csv```.
+
+```
+# Load the data with the OTU table: otudata.csv
+otu.table<-read.csv(file.choose(), header=T, row.names = 1)
+
+# Read taxonomy file associated with OTU table into new object: otu_taxonomy.csv
+tax<-read.csv(file.choose(),header=T, row.names = 1)
+```
+
+```{r echo = FALSE}
+otu.table <-read.csv(file = "otudata.csv", header=T, row.names = 1)
+tax <-read.csv(file= "otu_taxonomy.csv", header=T, row.names = 1)
+
+```
+
+Using the command ```dim()``` we can check the dimensions of the data.frame.    
+Columns are samples, and rows are operative taxonomic units [OTUs].
+```{r echo = TRUE}
+dim(otu.table)
+```
+Filtering low abundant OTUs, maintaining OTUs with more than 10 read counts
+```{r echo = TRUE}
+otu.table.filter <- otu.table[ ,colSums(otu.table) >= 10]
+```
+We can compare the initial number of OTUs, and after discarding low read count.
+```{r echo = TRUE}
+print(c(ncol(otu.table),"versus",ncol(otu.table.filter)))
+```
+# Correlation matrices
+Calculating the "Spearman" correlation coefficient between OTUs using the function ```rcorr()```. A list will be created from, with three elements, ```r``` for correlations, ```n``` for the number of observations and ```P``` for the p-values.
+[If you are curious type ```?rcorr()``` to explore the coefficient options].
+```{r echo = TRUE}
+otu.cor <- rcorr(as.matrix(otu.table.filter), type="spearman")
+```
+To obtain the p-value information from the list, use ```otu.cor$P```, using the function ```forceSymmetric()``` to assign self-correlation as ```NA```.  
+```{r echo = TRUE}
+otu.pval <- forceSymmetric(otu.cor$P) # Self-correlation as NA
+```
+Select only the taxa for the filtered OTUs by using rownames of otu.pval
+```{r echo = TRUE}
+sel.tax <- tax[rownames(otu.pval),,drop=FALSE]
+```
+Sanity check 
+```{r echo = TRUE}
+all.equal(rownames(sel.tax), rownames(otu.pval))
+```
+Filter the association based on p-values and level of correlations
+```{r echo = TRUE}
+p.yes <- otu.pval<0.05
+```
+Select the r values for the filter probality of < 0.5.
+```{r echo = TRUE}
+r.val = otu.cor$r # select all the correlation values 
+p.yes.r <- r.val*p.yes # only select correlation values based on p-value criterion 
+```
+Select OTUs by level of correlation
+```{r echo = TRUE}
+p.yes.r <- abs(p.yes.r)>0.75 # output is logical vector
+p.yes.rr <- p.yes.r*r.val # use logical vector for subscripting.
+```
+Create an adjacency matrix
+```{r echo = TRUE}
+adjm <- as.matrix(p.yes.rr)
+```
+Add taxonomic information from the metadata associated with adjacency matrix
+```{r echo = TRUE}
+colnames(adjm) <- as.vector(sel.tax$Family)
+rownames(adjm) <- as.vector(sel.tax$Family)
+```
+# Network analysis
+RAVIN INTRO TO MICROBIOME NETWORKS
+
+**iGraph** can create graph objects from different sources like ```data.frame```, ```edge.list```, or from ```adjacency.matrix```.   
+The function ```graph.adjacency``` creates a graph object from adjacency matrix.
+```{r echo = TRUE}
+net.grph=graph.adjacency(adjm,mode="undirected",weighted=TRUE,diag=FALSE)
+```
+Obtaining edge weight based on the Spearman correlation
+```{r echo = TRUE}
+edgew<-E(net.grph)$weight
+```
+Creating a vector to remove the isolated nodes (nodes with no interactions)
+```{r echo = TRUE}
+bad.vs<-V(net.grph)[degree(net.grph) == 0] 
+```
+Removing the isolated nodes from the graph object using the function ```delete.vertices()```  
+```{r echo = TRUE}
+net.grph <-delete.vertices(net.grph, bad.vs)
+```
+# Plot the graph object
+```{r echo = FALSE}
+set.seed(666)
+```
+Networks are plotted with the function ```plot()```from **iGraph**. The size of the vertex or the edge widht can be assigned directly to the graph object or in the plot function with ```vertex.size``` or ```edge.width```. The ```layout``` of the network can be selected as well, each layout has particular characteristics that can be modified or tuned for your data set.   
+Other characteristics can adjusted within the function ```plot()```.
+```{r echo = TRUE}
+plot(net.grph,
+	vertex.size=8,
+	vertex.frame.color="black",
+	edge.curved=F,
+	edge.width=1.5,
+	layout=layout.fruchterman.reingold,
+	#layout=layout_with_dh(net.grph, weight.node.dist = sqrt(20)),
+	edge.color=ifelse(edgew < 0,"red","blue"),
+	vertex.label=NA,
+	vertex.label.color="black",
+	vertex.label.family="Times New Roman",
+	vertex.label.font=2)
+```
