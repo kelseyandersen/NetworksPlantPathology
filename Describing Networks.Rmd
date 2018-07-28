@@ -1,7 +1,6 @@
 ---
 title: "Visualizing and Describing Networks"
 author: "Kelsey Andersen, Robin Choudhury, & James Fulton"
-output: word_document
 ---
 
 ## Networks with igraph 
