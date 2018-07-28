@@ -18,6 +18,7 @@ navbar:
     - text: Microbiome Networks 
       href: Microbiome_ws_ICPP_2018.html
   - text: Additional Resources
+    menu:
     - text: Resources
       href: Resources.html
 output:

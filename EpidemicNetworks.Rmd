@@ -1,5 +1,6 @@
 ---
 title: "Epidemic Networks"
+author: "Kelsey Andersen & Karen Garrett"
 ---
 
 

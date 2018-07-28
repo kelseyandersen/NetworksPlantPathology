@@ -252,6 +252,7 @@ One way to see if my network has an structure to it that is different than what 
 Lets go back to our farmer example!!
 ```{r}
 library(igraph)
+plot(FarmNetwork)
 Degree_Distribution <- igraph::degree(FarmNetwork, mode = "total")
 hist(Degree_Distribution)
 ```
@@ -278,7 +279,11 @@ degamat
 hist(degamat, xlim = c(0,7), breaks = 7)
 ```
 
-Graph and compare the degree distribution of our surveyed graph with degree distribution of our random networks. How do they compare? Do we think there are underlyng social processes that are driving link formation in this network? What could they be?
+Graph and compare the degree distribution of our surveyed graph with degree distribution of our random networks.  
+* How do they compare? 
+* Do we think there are underlyng social processes that are driving link formation in this network? 
+* What could they be?
+* You might say that a few people are hightly connected but most are more sparsley connected than we would expect by random. 
 
 ```{r}
 par(mfrow=c(1,1),
