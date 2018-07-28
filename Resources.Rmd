@@ -1,0 +1,16 @@
+---
+title: "Resources"
+---
+
+## R and Tidyverse references 
+* R for data science: http://r4ds.had.co.nz/
+\  
+
+
+
+## Network resources
+
+* igraph: http://igraph.org/r/  
+* igraph tutorial: kateto.net/networks-r-igraph  
+* Statnet network tools: https://statnet.github.io/nme/   
+

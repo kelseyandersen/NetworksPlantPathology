@@ -9,6 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Kelsey Andersen, Robin Choudhury, &amp; James Fulton" />
 
 
 <title>Visualizing and Describing Networks</title>
@@ -339,6 +340,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Visualizing and Describing Networks</h1>
+<h4 class="author"><em>Kelsey Andersen, Robin Choudhury, &amp; James Fulton</em></h4>
 
 </div>
 
@@ -346,7 +348,8 @@ div.tocify {
 <div id="networks-with-igraph" class="section level2">
 <h2>Networks with igraph</h2>
 <p>First, make sure you have loaded package <em>igraph</em>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(igraph)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#install.packages(&quot;igraph&quot;)</span>
+<span class="kw">library</span>(igraph)</code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;igraph&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
@@ -364,35 +367,37 @@ mat1</code></pre></div>
 ## [1,]    0    0    1
 ## [2,]    1    0    0
 ## [3,]    0    1    0</code></pre>
-<p>Use igraph function graph_from_adjacency_matrix() to create a network object from your graph. Use plot function to plot.</p>
+<p>Use the igraph function <em>graph_from_adjacency_matrix()</em> to create a network object from your graph, then use the <em>plot()</em> function to plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat2 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(mat1)
 <span class="kw">plot</span>(mat2, <span class="dt">edge.arrow.size =</span> <span class="dv">1</span>) ## set the size of the arrows </code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Alternatively, create the same network by telling igraph what links you have</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat3 &lt;-<span class="st"> </span><span class="kw">graph</span>( <span class="dt">edges=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">n=</span><span class="dv">3</span>, <span class="dt">directed=</span>T ) <span class="co"># use graph function and list edges </span>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-3-1.png" width="672" />  </p>
+<p>Alternatively, create the same network by telling igraph what links you would like.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat3 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">n=</span><span class="dv">3</span>, <span class="dt">directed=</span>T ) <span class="co"># use graph function and list edges </span>
 <span class="kw">plot</span>(mat3, <span class="dt">edge.arrow.size =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-4-1.png" width="672" />   ## Network Aestetics Many parts of a network can be sized and colored to help communicate results more clearly.</p>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-4-1.png" width="672" />   ## Network Aestetics<br />
+Many parts of a network can be sized and colored to help communicate results more clearly.<br />
+Here, for example, we color the nodes and change the size and position of the labels using <em>vertex.color =</em> and <em>vertex.label.dist =</em></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mat3, <span class="dt">edge.arrow.size =</span> <span class="dv">1</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">vertex.size =</span> <span class="dv">20</span>, <span class="dt">vertex.label.cex =</span> <span class="dv">2</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">3.5</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="generating-random-networks" class="section level3">
 <h3>Generating Random Networks</h3>
 <p>Networks can also be generated randomly<br />
-  Empty graph</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eg &lt;-<span class="st"> </span><span class="kw">make_empty_graph</span>(<span class="dv">50</span>)
-<span class="kw">plot</span>(eg, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>)</code></pre></div>
+  Here we create an empty graph (no links):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eg &lt;-<span class="st"> </span><span class="kw">make_empty_graph</span>(<span class="dv">50</span>) ## make a graph with 50 nodes
+<span class="kw">plot</span>(eg, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>) ## no node labels.</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eg</code></pre></div>
-<pre><code>## IGRAPH db92967 D--- 50 0 -- 
-## + edges from db92967:</code></pre>
-<p>Full Graph</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eg <span class="co"># view graph object</span></code></pre></div>
+<pre><code>## IGRAPH e61ea35 D--- 50 0 -- 
+## + edges from e61ea35:</code></pre>
+<p>And a full graph (all possible links = 780):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fg &lt;-<span class="st"> </span><span class="kw">make_full_graph</span>(<span class="dv">40</span>)
 <span class="kw">plot</span>(fg, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fg</code></pre></div>
-<pre><code>## IGRAPH 06e1d9b U--- 40 780 -- Full graph
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fg <span class="co"># view graph</span></code></pre></div>
+<pre><code>## IGRAPH c10981e U--- 40 780 -- Full graph
 ## + attr: name (g/c), loops (g/l)
-## + edges from 06e1d9b:
+## + edges from c10981e:
 ##  [1] 1-- 2 1-- 3 1-- 4 1-- 5 1-- 6 1-- 7 1-- 8 1-- 9 1--10 1--11 1--12
 ## [12] 1--13 1--14 1--15 1--16 1--17 1--18 1--19 1--20 1--21 1--22 1--23
 ## [23] 1--24 1--25 1--26 1--27 1--28 1--29 1--30 1--31 1--32 1--33 1--34
@@ -403,26 +408,29 @@ mat1</code></pre></div>
 ## [78] 3-- 4 3-- 5 3-- 6 3-- 7 3-- 8 3-- 9 3--10 3--11 3--12 3--13 3--14
 ## + ... omitted several edges</code></pre>
 <p> </p>
-<p>Tree Graph</p>
+<p>Or a tree graph:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tr &lt;-<span class="st"> </span><span class="kw">make_tree</span>(<span class="dv">40</span>, <span class="dt">children =</span> <span class="dv">3</span>, <span class="dt">mode =</span> <span class="st">&quot;undirected&quot;</span>)
 <span class="kw">plot</span>(tr, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>) </code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>Erdos-Renyi random graph (‘n’ is number of nodes, ‘m’ is the number of edges)</p>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-8-1.png" width="672" />   You can also generate mathmatical models of networks in igraph. For example, a very simple model can be generated by using <em>sample_gnm()</em> to generate a graph of a specified number of nodes (n) and links (m). Links will be generated with the same constant probability.<br />
+ </p>
+<p>Erdos-Renyi random graph (Again, ‘n’ is number of nodes, ‘m’ is the number of edges).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">er &lt;-<span class="st"> </span><span class="kw">sample_gnm</span>(<span class="dt">n=</span><span class="dv">100</span>, <span class="dt">m=</span><span class="dv">40</span>) 
-<span class="kw">plot</span>(er, <span class="dt">vertex.size=</span><span class="dv">5</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>)  </code></pre></div>
+<span class="kw">plot</span>(er, <span class="dt">vertex.size=</span><span class="dv">5</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>) <span class="co"># vertex color &quot;plum&quot; :)</span></code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>Barabasi-Albert scale-free graph (preferential attachment)</p>
+<p>Barabasi-Albert scale-free graph (preferential attachment). This function builds a model with a simple stochastic algorithm where n = the number of nodes &amp; power= the power of the preferential attachment. The default is 1, which gives linear attachment. Try changing the value of <em>power =</em> to 2 and 3 and see what happens! (m = the number of edges to add in each step).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ba &lt;-<span class="st">  </span><span class="kw">sample_pa</span>(<span class="dt">n=</span><span class="dv">100</span>, <span class="dt">power=</span><span class="dv">1</span>, <span class="dt">m=</span><span class="dv">1</span>,  <span class="dt">directed=</span>F)
 <span class="kw">plot</span>(ba, <span class="dt">vertex.size=</span><span class="dv">6</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
-<div id="data-types" class="section level2">
-<h2>Data types</h2>
-<div id="data-to-adjacency-matrix" class="section level3">
-<h3>Data to Adjacency Matrix</h3>
-<p>  You can read in your data directly as a matrix, but likely this is not the way that you have your data organized. Instead, it might be easier to have two files: <em>node</em> file and <em>edge</em> file.</p>
-<p>In an node file, the first two columns all of your from:to links. Column 1 is always from, Column 2 is always 2. (less important for undirected networks). The columns after that are your edge atributes. Here you can include link weights, names, etc.</p>
+<div id="network-data-types" class="section level2">
+<h2>Network data types</h2>
+<div id="adjacency-matrices" class="section level3">
+<h3>Adjacency matrices</h3>
+<p>  You can read in your data directly as an adjacency matrix, but likely this is not the way that you have your data organized. Instead, it might be easier to have two files: a <em>node</em> file and an <em>edge</em> file.</p>
+<p>In a node file, the first two columns are all of your from:to links. Column 1 is always <em>from</em>, Column 2 is always <em>to</em> (less important for undirected networks). The columns after that are your edge attributes (such as weight of link, volume, probability, name etc).<br />
+ </p>
+<p>Here is an example of a simple node list, where all of the nodes are farmers. We include attributes about the <em>node</em> like age, gender and number of years farming.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Nodelist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
                     <span class="dt">Names =</span><span class="kw">c</span>(<span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Joe&quot;</span>, <span class="st">&quot;Michelle&quot;</span>, <span class="st">&quot;Jen&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;Tim&quot;</span>, 
                             <span class="st">&quot;Jess&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Jill&quot;</span>, <span class="st">&quot;Cam&quot;</span>, <span class="st">&quot;Kate&quot;</span>) ,
@@ -444,258 +452,332 @@ Nodelist       </code></pre></div>
 ## 11     Jill          1.0  26 Female
 ## 12      Cam          6.0  28   Male
 ## 13     Kate          6.0  22 Female</code></pre>
+<p> </p>
 <p>Now an edgelist- Who shared information in the 2017 growing season? How frequently?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Edgelist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
                   <span class="dt">From =</span> <span class="kw">c</span>(<span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jill&quot;</span>, <span class="st">&quot;Kate&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Jess&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Pete&quot;</span>),
                   <span class="dt">To =</span> <span class="kw">c</span>(<span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Jen&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Joe&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Cam&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Tim&quot;</span>)
 )</code></pre></div>
 </div>
-<div id="into-igraph-objects" class="section level3">
-<h3>Into igraph objects</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Network &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="dt">d =</span> Edgelist, <span class="dt">vertices =</span> Nodelist, <span class="dt">directed =</span> T)
-Network</code></pre></div>
-<pre><code>## IGRAPH 0473bb5 DN-- 13 11 -- 
+<div id="igraph-objects" class="section level3">
+<h3>igraph objects</h3>
+<p>Let’s make our farmer communication network!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FarmNetwork &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="dt">d =</span> Edgelist, <span class="dt">vertices =</span> Nodelist, <span class="dt">directed =</span> T)
+FarmNetwork</code></pre></div>
+<pre><code>## IGRAPH f2a8f80 DN-- 13 11 -- 
 ## + attr: name (v/c), YearsFarming (v/n), Age (v/n), Gender (v/c)
-## + edges from 0473bb5 (vertex names):
+## + edges from f2a8f80 (vertex names):
 ##  [1] Jim -&gt;Carole Jim -&gt;Jen    Jim -&gt;Pete   Jill-&gt;Carole Kate-&gt;Joe   
 ##  [6] Pete-&gt;Carole Pete-&gt;Paul   Jess-&gt;Mark   Jim -&gt;Cam    Jim -&gt;Mark  
 ## [11] Pete-&gt;Tim</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">E</span>(Network)</code></pre></div>
-<pre><code>## + 11/11 edges from 0473bb5 (vertex names):
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">E</span>(FarmNetwork) <span class="co"># view edges</span></code></pre></div>
+<pre><code>## + 11/11 edges from f2a8f80 (vertex names):
 ##  [1] Jim -&gt;Carole Jim -&gt;Jen    Jim -&gt;Pete   Jill-&gt;Carole Kate-&gt;Joe   
 ##  [6] Pete-&gt;Carole Pete-&gt;Paul   Jess-&gt;Mark   Jim -&gt;Cam    Jim -&gt;Mark  
 ## [11] Pete-&gt;Tim</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(Network)</code></pre></div>
-<pre><code>## + 13/13 vertices, named, from 0473bb5:
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FarmNetwork) <span class="co"># view nodes</span></code></pre></div>
+<pre><code>## + 13/13 vertices, named, from f2a8f80:
 ##  [1] Jim      Carole   Joe      Michelle Jen      Pete     Paul    
 ##  [8] Tim      Jess     Mark     Jill     Cam      Kate</code></pre>
 <p>Plot!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Network, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">2.5</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(FarmNetwork, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">2.5</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="fancy-stuff" class="section level3">
 <h3>Fancy Stuff</h3>
-<p>More about making igraphs pretty at <a href="http://kateto.net/networks-r-igraph">Katya Ognyanova’s Site</a><br />
-  n<br />
-n<br />
-n<br />
-n<br />
-n<br />
-n<br />
- </p>
-</div>
-<div id="describing-networks" class="section level3">
-<h3>Describing networks</h3>
-<p> </p>
-<p>Use igraph “graph” function to plot a network directly as igraph object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g1 &lt;-<span class="st"> </span><span class="kw">graph</span>( <span class="dt">edges=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">n=</span><span class="dv">3</span>, <span class="dt">directed=</span>T ) 
-g1</code></pre></div>
-<pre><code>## IGRAPH 0ec48c4 D--- 3 3 -- 
-## + edges from 0ec48c4:
-## [1] 1-&gt;3 3-&gt;2 2-&gt;1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(g1, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>)</code></pre></div>
+<p>Much more information about making beautiful networks in R using igraph can be found at <a href="http://kateto.net/networks-r-igraph">Katya Ognyanova’s Site</a>. But briefly:<br />
+  Let’s color our nodes based on gender</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colrs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gray70&quot;</span>, <span class="st">&quot;blue&quot;</span>)
+<span class="kw">V</span>(FarmNetwork)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">V</span>(FarmNetwork)$Gender ==<span class="st"> &quot;Male&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;dodgerblue&quot;</span>) ## if male, make orange, if not, blue. Go gators!!!!   
+<span class="kw">plot</span>(FarmNetwork, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">2.5</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>Make it <em>undirected</em></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g2 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="dv">2</span>,<span class="dv">4</span>), <span class="dt">n =</span> <span class="dv">4</span>, <span class="dt">directed =</span> F)
-g2</code></pre></div>
-<pre><code>## IGRAPH 7a85c74 U--- 4 4 -- 
-## + edges from 7a85c74:
-## [1] 1--3 1--2 1--4 2--4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(g2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>)</code></pre></div>
+<p>  You can also size your nodes based on attributes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FarmNetwork)$size &lt;-<span class="st"> </span><span class="kw">V</span>(FarmNetwork)$YearsFarming <span class="co"># size the nodes by number of years farming</span>
+<span class="kw">plot</span>(FarmNetwork, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">2.5</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Graph Density, diameter, mean path length</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">graph.density</span>(g2) <span class="co">#graph density</span></code></pre></div>
-<pre><code>## [1] 0.6666667</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">diameter</span>(g2) <span class="co"># diameter</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean_distance</span>(g2) ##mean path length</code></pre></div>
-<pre><code>## [1] 1.333333</code></pre>
-<p><em>Directed</em> graph</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g3 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="dv">2</span>,<span class="dv">4</span>), <span class="dt">n =</span> <span class="dv">4</span>, <span class="dt">directed =</span> T)
-g3</code></pre></div>
-<pre><code>## IGRAPH 9f91df1 D--- 4 4 -- 
-## + edges from 9f91df1:
-## [1] 1-&gt;3 1-&gt;2 1-&gt;4 2-&gt;4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(g3, <span class="dt">edge.arrow.size =</span> .<span class="dv">7</span>)</code></pre></div>
+<p>Scale the node size up a bit..</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FarmNetwork)$size &lt;-<span class="st"> </span><span class="kw">V</span>(FarmNetwork)$YearsFarming *<span class="dv">2</span> ## scale by multiplying by 2
+<span class="kw">plot</span>(FarmNetwork, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.label.dist =</span> <span class="fl">2.5</span>)</code></pre></div>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
+<div id="describing-networks" class="section level2">
+<h2>Describing networks</h2>
+<p> </p>
+<div id="node-level-statistics" class="section level3">
+<h3>Node-Level Statistics</h3>
+<ul>
+<li><strong>Degree centrality</strong>- The number of links a node has to other nodes in the network (both incoming and outgoing)<br />
+</li>
+<li><strong>Eigenvectory centrality</strong>- A weighted sum reflecting both direct links to a node (degree) and the node degree of neighbors<br />
+</li>
+<li><strong>Betweenness centrality</strong>- The number of shortest paths through the network of which a node is a part<br />
+</li>
+<li><strong>Closeness centrality</strong>- The inverse of the average length of the shortest path to/from all the other nodes in the network</li>
+</ul>
+<p>Use igraph “graph” function to plot a network directly as igraph object. We will use this as an example.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Net2 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">5</span>,<span class="dv">4</span>), <span class="dt">n=</span><span class="dv">5</span>, <span class="dt">directed=</span>T) 
+Net2</code></pre></div>
+<pre><code>## IGRAPH 0ed49b3 D--- 5 5 -- 
+## + edges from 0ed49b3:
+## [1] 1-&gt;3 3-&gt;2 2-&gt;1 2-&gt;4 5-&gt;4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Toy example for <em>betweenness centrality</em></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g5 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">5</span>), <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">directed =</span> F)
-<span class="kw">plot</span>(g5, <span class="dt">vertex.label.cex =</span> .<span class="dv">0001</span>)</code></pre></div>
+<div id="node-degree-centrality" class="section level4">
+<h4>Node degree centrality</h4>
+<p>What is the node <em>degree</em> of the nodes in our graph, which is the sum of the number of both incoming and outgoing links.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deg1 &lt;-<span class="st">  </span><span class="kw">degree</span>(Net2, <span class="dt">v =</span> <span class="kw">V</span>(Net2), <span class="dt">mode =</span> <span class="kw">c</span>(<span class="st">&quot;all&quot;</span>))
+deg1 ## node degree of all nodes in the network </code></pre></div>
+<pre><code>## [1] 2 3 2 2 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(Net2)$size &lt;-<span class="st"> </span>(deg1*<span class="dv">10</span>) <span class="co">#size the network nodes by their node degree </span>
+<span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>) ## is this what you expected?</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">closeness</span>(g2, <span class="dt">vids =</span> <span class="kw">V</span>(g2), <span class="dt">normalized =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] 1.00 0.75 0.60 0.75</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">closeness</span>(g2, <span class="dt">vids =</span> <span class="kw">V</span>(g2), <span class="dt">normalized =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## [1] 0.3333333 0.2500000 0.2000000 0.2500000</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">betweenness</span>(g2)</code></pre></div>
-<pre><code>## [1] 2 0 0 0</code></pre>
-<p>Geodesic distance</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Geodesic &lt;-<span class="st"> </span>igraph::<span class="kw">distances</span>(g2)
-Geodesic ## geodesic matrix</code></pre></div>
-<pre><code>##      [,1] [,2] [,3] [,4]
-## [1,]    0    1    1    1
-## [2,]    1    0    2    1
-## [3,]    1    2    0    2
-## [4,]    1    1    2    0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(Geodesic)</code></pre></div>
+<p>  #### Node eigenvector centrality</p>
+<p><strong>Eigenvector centrality</strong>- Takes into account not only how many links that the node has, but also the number of links that connected nodes have. It is an extension of degree centrality. Note: this could potentially be important in epidemiology because disease risk may become higher if a node is connected to more highly connected nodes, even if the node itself does not have many links.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eig1 &lt;-<span class="st"> </span><span class="kw">eigen_centrality</span>(Net2, <span class="dt">directed =</span> <span class="ot">TRUE</span>)
+eig1 ## NOTE: this gives a &quot;list&quot; of vectors. To pull the eigenvector centrality scores we need to look at </code></pre></div>
+<pre><code>## $vector
+## [1] 1 1 1 1 0
+## 
+## $value
+## [1] 1
+## 
+## $options
+## $options$bmat
+## [1] &quot;I&quot;
+## 
+## $options$n
+## [1] 5
+## 
+## $options$which
+## [1] &quot;LR&quot;
+## 
+## $options$nev
+## [1] 1
+## 
+## $options$tol
+## [1] 0
+## 
+## $options$ncv
+## [1] 0
+## 
+## $options$ldv
+## [1] 0
+## 
+## $options$ishift
+## [1] 1
+## 
+## $options$maxiter
+## [1] 1000
+## 
+## $options$nb
+## [1] 1
+## 
+## $options$mode
+## [1] 1
+## 
+## $options$start
+## [1] 1
+## 
+## $options$sigma
+## [1] 0
+## 
+## $options$sigmai
+## [1] 0
+## 
+## $options$info
+## [1] 0
+## 
+## $options$iter
+## [1] 14
+## 
+## $options$nconv
+## [1] 1
+## 
+## $options$numop
+## [1] 29
+## 
+## $options$numopb
+## [1] 0
+## 
+## $options$numreo
+## [1] 15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eig1$vector <span class="co">#like this!</span></code></pre></div>
+<pre><code>## [1] 1 1 1 1 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(Net2)$size &lt;-<span class="st"> </span>(eig1$vector*<span class="dv">10</span>) <span class="co">#size the network nodes by eigenvector centrality </span>
+<span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>) ## is this what you expected?</code></pre></div>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="node-betweenness-centrality" class="section level4">
+<h4>Node betweenness centrality</h4>
+<p>What is the <em>betweenness centrality</em> of the nodes in our graph, which is the number of shortest paths through the network of which a node is a part</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bet1 &lt;-<span class="st">  </span><span class="kw">betweenness</span>(Net2, <span class="dt">v =</span> <span class="kw">V</span>(Net2), <span class="dt">directed =</span> <span class="ot">TRUE</span>)
+bet1 ## node degree of all nodes in the network </code></pre></div>
+<pre><code>## [1] 1 3 2 0 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(Net2)$size &lt;-<span class="st"> </span>(bet1*<span class="dv">10</span>) <span class="co">#size the network nodes by their node degree </span>
+<span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>) ## is this what you expected?</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p>degree distribution</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Degree_Distribution &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(g3, <span class="dt">mode =</span> <span class="st">&quot;total&quot;</span>)
-<span class="kw">hist</span>(Degree_Distribution, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>) <span class="co">#all</span>
-
-degIn &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(g3, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>) <span class="co">#in</span>
-degOut &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(g3, <span class="dt">mode =</span> <span class="st">&quot;out&quot;</span>) <span class="co">#out</span>
-
-<span class="kw">hist</span>(Degree_Distribution, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>) </code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(degIn, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(degOut, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">vertex_connectivity</span>(g2)</code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">transitivity</span>(g2)</code></pre></div>
-<pre><code>## [1] 0.6</code></pre>
-<p>back to our farmer example</p>
+</div>
+<div id="node-closeness-centrality" class="section level4">
+<h4>Node closeness centrality</h4>
+<p>What is the <em>closeness centrality</em> of the nodes in our graph, The inverse of the average length of the shortest path to/from all the other nodes in the network.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cls1 &lt;-<span class="st">  </span><span class="kw">closeness</span>(Net2, <span class="dt">v =</span> <span class="kw">V</span>(Net2), <span class="dt">mode =</span> <span class="st">&quot;all&quot;</span>)
+cls1 ## closeness centrality of all nodes in the network</code></pre></div>
+<pre><code>## [1] 0.1428571 0.2000000 0.1428571 0.1666667 0.1111111</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(Net2)$size &lt;-<span class="st"> </span>(cls1*<span class="dv">100</span>) <span class="co">#size the network nodes by their node closeness</span>
+<span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>) ## is this what you expected?</code></pre></div>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-22-1.png" width="672" />  </p>
+</div>
+</div>
+<div id="graph-level-statistics" class="section level3">
+<h3>Graph level statistics</h3>
+<p>Calculate graph <strong>density</strong> (ratio of edges to number of possible edges), <strong>diameter</strong> (length of the longest path across the graph), <strong>mean distance</strong> (mean path length)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">graph.density</span>(Net2) <span class="co">#graph density</span></code></pre></div>
+<pre><code>## [1] 0.25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">diameter</span>(Net2) <span class="co"># diameter</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean_distance</span>(Net2) ##mean path length</code></pre></div>
+<pre><code>## [1] 1.6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">vertex_connectivity</span>(Net2)</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">igraph::<span class="kw">transitivity</span>(Net2)</code></pre></div>
+<pre><code>## [1] 0.5</code></pre>
+</div>
+</div>
+<div id="bonus-does-my-network-deviate-from-random" class="section level2">
+<h2>Bonus: Does my network deviate from random?</h2>
+<p>One way to see if my network has an structure to it that is different than what would be generated is to compare to many randomaly generated graphs of the same size (nodes and links).<br />
+ </p>
+<p>Lets go back to our farmer example!!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(igraph)
-Nodelist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-                    <span class="dt">Names =</span><span class="kw">c</span>(<span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Joe&quot;</span>, <span class="st">&quot;Michelle&quot;</span>, <span class="st">&quot;Jen&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;Tim&quot;</span>, 
-                            <span class="st">&quot;Jess&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Jill&quot;</span>, <span class="st">&quot;Cam&quot;</span>, <span class="st">&quot;Kate&quot;</span>) ,
-                    <span class="dt">YearsFarming =</span> <span class="kw">c</span>(<span class="fl">8.5</span>, <span class="fl">6.5</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">6</span>) , 
-                    <span class="dt">Age =</span> <span class="kw">c</span>(<span class="dv">22</span>, <span class="dv">31</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">35</span>, <span class="dv">42</span>, <span class="dv">27</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">22</span>) , 
-                    <span class="dt">Gender =</span> <span class="kw">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>,<span class="st">&quot;Male&quot;</span>,<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>))
-Edgelist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-                  <span class="dt">From =</span> <span class="kw">c</span>(<span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jill&quot;</span>, <span class="st">&quot;Kate&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Jess&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Jim&quot;</span>, <span class="st">&quot;Pete&quot;</span>),
-                  <span class="dt">To =</span> <span class="kw">c</span>(<span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Jen&quot;</span>, <span class="st">&quot;Pete&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Joe&quot;</span>, <span class="st">&quot;Carole&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Cam&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Tim&quot;</span>))
-
-AsMatrix &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="dt">d =</span> Edgelist, <span class="dt">vertices =</span> Nodelist, <span class="dt">directed =</span> <span class="ot">FALSE</span>)
-<span class="kw">plot</span>(AsMatrix)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Degree_Distribution &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(AsMatrix, <span class="dt">mode =</span> <span class="st">&quot;total&quot;</span>)</code></pre></div>
+Degree_Distribution &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(FarmNetwork, <span class="dt">mode =</span> <span class="st">&quot;total&quot;</span>)
+<span class="kw">hist</span>(Degree_Distribution)</code></pre></div>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>same number of nodes and links</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new1 &lt;-<span class="st"> </span><span class="kw">sample_gnm</span>(<span class="dv">13</span>, <span class="dv">14</span>, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">loops =</span> <span class="ot">FALSE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new1 &lt;-<span class="st"> </span><span class="kw">sample_gnm</span>(<span class="dv">13</span>, <span class="dv">11</span>, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">loops =</span> <span class="ot">FALSE</span>)
 h1&lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(new1)
 <span class="kw">hist</span>(h1)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<p>run that n number of times</p>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Make a loop to generate 50 random graphs with that same number of nodes and links!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">degamat &lt;-<span class="st"> </span><span class="ot">NULL</span>
 n &lt;-<span class="st"> </span><span class="dv">50</span>
 for(i in <span class="dv">1</span>:n){
-  newmatrix &lt;-<span class="st"> </span><span class="kw">sample_gnm</span>(<span class="dv">13</span>,<span class="dv">14</span>, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">loops =</span> <span class="ot">FALSE</span>)
+  newmatrix &lt;-<span class="st"> </span><span class="kw">sample_gnm</span>(<span class="dv">13</span>,<span class="dv">11</span>, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">loops =</span> <span class="ot">FALSE</span>)
   degmat &lt;-<span class="st"> </span>igraph::<span class="kw">degree</span>(newmatrix)
   degamat&lt;-<span class="kw">rbind</span>(degamat,degmat)
 }
 degamat</code></pre></div>
 <pre><code>##        [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
-## degmat    1    2    2    1    1    1    5    2    3     4     4     1
-## degmat    2    3    3    4    3    1    0    0    1     1     4     2
-## degmat    4    3    3    3    2    2    1    1    1     3     2     1
-## degmat    1    4    2    3    3    3    1    1    0     4     2     1
-## degmat    4    4    0    2    2    3    1    1    2     3     2     2
-## degmat    1    1    2    3    1    3    2    4    4     1     3     2
-## degmat    3    3    0    2    2    2    2    1    2     4     1     2
-## degmat    1    3    1    5    1    2    3    2    2     1     3     2
-## degmat    2    0    2    2    4    4    1    2    2     3     2     2
-## degmat    0    2    3    2    0    3    3    4    2     3     2     3
-## degmat    4    3    2    2    0    3    0    2    3     3     3     0
-## degmat    5    3    1    2    4    2    0    1    1     0     2     3
-## degmat    3    2    3    2    0    3    2    2    2     4     1     3
-## degmat    2    3    3    2    5    2    2    0    1     1     3     1
-## degmat    2    2    1    2    1    2    3    1    2     3     4     3
-## degmat    1    2    1    2    4    3    1    3    2     3     2     2
-## degmat    3    3    1    0    3    1    5    4    3     1     2     1
-## degmat    2    2    2    3    2    3    3    1    2     3     2     2
-## degmat    2    1    2    2    2    5    2    2    1     2     2     2
-## degmat    1    2    2    3    2    1    2    1    2     4     3     4
-## degmat    2    2    2    2    2    4    3    2    2     0     2     2
-## degmat    2    3    2    1    4    2    0    2    1     4     2     1
-## degmat    2    4    4    2    0    3    2    2    0     2     1     4
-## degmat    0    2    2    2    5    1    1    1    4     2     5     1
-## degmat    1    1    4    3    0    3    1    3    1     3     3     4
-## degmat    4    0    5    2    3    2    1    2    3     2     1     1
-## degmat    5    1    4    0    3    2    0    1    1     2     3     2
-## degmat    4    2    1    3    3    0    3    3    2     2     0     4
-## degmat    1    1    4    4    1    3    0    1    3     2     2     5
-## degmat    1    1    4    3    1    2    1    2    0     2     3     3
-## degmat    1    0    2    3    2    3    3    1    1     3     2     5
-## degmat    2    1    1    2    3    0    4    4    1     3     1     4
-## degmat    3    2    1    0    5    1    4    3    3     1     1     2
-## degmat    2    4    2    2    2    4    2    2    3     0     1     2
-## degmat    1    1    4    4    3    3    1    2    2     1     2     0
-## degmat    4    3    3    2    2    2    4    1    0     4     0     2
-## degmat    2    3    3    2    1    1    4    3    3     1     2     1
-## degmat    2    2    1    1    2    3    3    3    2     2     2     3
-## degmat    2    1    2    4    2    2    2    1    3     4     4     0
-## degmat    2    2    3    2    4    0    3    1    1     2     1     3
-## degmat    4    2    2    0    2    2    3    2    3     2     1     3
-## degmat    0    4    2    1    1    2    2    0    3     5     2     2
-## degmat    2    3    1    1    4    1    1    0    3     3     5     3
-## degmat    3    2    1    1    2    4    1    0    1     2     3     4
-## degmat    2    3    2    0    3    2    2    1    3     4     0     2
-## degmat    3    3    3    4    1    2    1    1    4     1     1     2
-## degmat    2    2    3    5    3    1    2    2    2     2     1     2
-## degmat    2    2    3    2    2    2    0    1    1     7     3     0
-## degmat    1    2    3    4    4    0    2    1    6     2     1     2
-## degmat    2    2    5    2    2    1    2    3    2     0     3     0
+## degmat    1    1    1    3    1    1    2    2    1     1     2     2
+## degmat    2    2    2    0    1    1    2    4    1     3     2     1
+## degmat    3    2    1    3    3    0    1    1    1     1     2     4
+## degmat    1    1    1    1    3    1    1    1    3     3     2     2
+## degmat    2    4    1    2    0    0    1    1    1     2     3     3
+## degmat    2    0    1    1    0    3    1    3    3     3     1     1
+## degmat    1    1    3    1    0    0    1    4    0     3     3     3
+## degmat    1    4    1    2    3    5    1    0    2     0     3     0
+## degmat    1    0    2    1    1    0    1    1    2     4     3     2
+## degmat    3    1    2    1    0    3    1    2    2     1     0     3
+## degmat    2    4    0    2    1    2    1    0    5     0     2     3
+## degmat    3    1    1    3    1    1    1    2    1     3     2     1
+## degmat    1    0    2    2    2    2    1    3    2     1     3     3
+## degmat    2    3    3    0    2    2    0    2    1     0     2     4
+## degmat    3    0    3    1    0    1    2    4    2     3     0     1
+## degmat    4    1    1    4    0    1    3    1    3     1     2     0
+## degmat    2    2    0    0    0    4    3    2    3     0     2     3
+## degmat    2    2    1    1    1    1    2    3    1     2     1     3
+## degmat    2    1    2    4    2    1    1    1    3     2     0     0
+## degmat    2    3    0    2    0    2    0    1    4     2     2     2
+## degmat    2    0    3    2    4    2    1    2    2     1     2     0
+## degmat    2    2    0    1    1    2    5    2    1     3     0     3
+## degmat    1    2    1    1    3    2    1    3    0     1     4     0
+## degmat    4    3    1    2    4    1    1    0    1     2     1     0
+## degmat    2    4    1    2    1    3    1    2    1     1     2     1
+## degmat    1    3    2    1    1    0    2    1    3     3     1     2
+## degmat    1    4    1    1    2    2    3    1    1     1     1     3
+## degmat    0    2    0    3    3    3    1    1    0     3     3     0
+## degmat    1    2    1    2    0    2    1    2    3     2     1     3
+## degmat    4    2    0    0    1    4    1    2    1     1     2     2
+## degmat    0    2    3    1    2    2    3    0    1     2     3     2
+## degmat    3    0    1    1    1    4    2    1    2     1     1     4
+## degmat    2    1    1    2    2    3    1    1    2     3     0     2
+## degmat    5    0    3    1    2    1    2    1    0     3     1     2
+## degmat    3    2    3    1    0    2    1    4    1     2     0     2
+## degmat    0    3    1    1    3    0    2    3    2     1     0     3
+## degmat    2    1    2    1    1    2    1    0    2     3     4     2
+## degmat    1    2    1    1    3    2    0    3    3     0     2     3
+## degmat    3    1    1    1    4    2    1    2    3     0     2     0
+## degmat    1    3    1    4    1    1    1    1    2     5     0     1
+## degmat    3    1    1    3    0    0    1    4    1     3     2     2
+## degmat    3    2    2    1    4    2    1    0    0     0     2     2
+## degmat    3    4    1    2    2    2    2    0    1     1     1     1
+## degmat    0    3    1    1    2    1    1    3    1     1     3     3
+## degmat    1    1    1    2    0    4    1    2    0     1     2     4
+## degmat    1    2    3    3    3    2    1    2    1     2     0     0
+## degmat    1    1    3    1    3    1    0    1    3     3     1     1
+## degmat    1    0    3    0    2    2    1    2    1     4     4     1
+## degmat    2    2    2    2    0    3    2    0    2     2     2     1
+## degmat    3    1    3    2    1    2    1    1    2     3     2     0
 ##        [,13]
-## degmat     1
 ## degmat     4
+## degmat     1
+## degmat     0
+## degmat     2
 ## degmat     2
 ## degmat     3
 ## degmat     2
-## degmat     1
+## degmat     0
 ## degmat     4
-## degmat     2
-## degmat     2
-## degmat     1
-## degmat     3
-## degmat     4
-## degmat     1
-## degmat     3
-## degmat     2
-## degmat     2
-## degmat     1
-## degmat     1
-## degmat     3
-## degmat     1
-## degmat     3
-## degmat     4
-## degmat     2
-## degmat     2
-## degmat     1
-## degmat     2
-## degmat     4
-## degmat     1
-## degmat     1
-## degmat     5
-## degmat     2
-## degmat     2
-## degmat     2
-## degmat     2
-## degmat     4
-## degmat     1
-## degmat     2
-## degmat     2
-## degmat     1
-## degmat     4
-## degmat     2
-## degmat     4
-## degmat     1
-## degmat     4
-## degmat     4
-## degmat     2
-## degmat     1
 ## degmat     3
 ## degmat     0
-## degmat     4</code></pre>
+## degmat     2
+## degmat     0
+## degmat     1
+## degmat     2
+## degmat     1
+## degmat     1
+## degmat     2
+## degmat     3
+## degmat     2
+## degmat     1
+## degmat     0
+## degmat     3
+## degmat     2
+## degmat     1
+## degmat     2
+## degmat     1
+## degmat     3
+## degmat     2
+## degmat     2
+## degmat     1
+## degmat     1
+## degmat     2
+## degmat     1
+## degmat     1
+## degmat     3
+## degmat     1
+## degmat     1
+## degmat     2
+## degmat     1
+## degmat     1
+## degmat     3
+## degmat     2
+## degmat     2
+## degmat     3
+## degmat     2
+## degmat     3
+## degmat     1
+## degmat     2
+## degmat     1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(degamat, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">7</span>), <span class="dt">breaks =</span> <span class="dv">7</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>Graph and compare the degree distribution of our surveyed graph with degree distribution of our random networks. How do they compare? Do we think there are underlyng social processes that are driving link formation in this network? What could they be?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
     <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))
 <span class="kw">hist</span>(Degree_Distribution, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">7</span>), <span class="dt">breaks =</span> <span class="dv">3</span>, <span class="dt">main =</span> <span class="st">&quot;Observed&quot;</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(degamat, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">7</span>), <span class="dt">breaks =</span> <span class="dv">7</span>, <span class="dt">xlab =</span> <span class="st">&quot;Node Degree&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Simulated&quot;</span>)</code></pre></div>
-<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
-</div>
+<p><img src="Describing_Networks_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
 </div>
 
 
