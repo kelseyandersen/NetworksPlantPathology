@@ -3,7 +3,7 @@ title: "Epidemic Networks"
 author: "Kelsey Andersen & Karen Garrett"
 ---
 
-* [Intro to Networks in R](PDFFiles/ICPP2018_EpidemicNetworks.pdf)
+* [Epidemic Networks](PDFFiles/ICPP2018_EpidemicNetworks.pdf)
 
 ## Matrices in R: Epidemic spread over time
 
