@@ -12,7 +12,7 @@
 <meta name="author" content="Alcala &amp; Poudel" />
 
 
-<title>Microbiome Networks</title>
+<title>Microbiome Network</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -343,18 +343,18 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Microbiome Networks</h1>
+<h1 class="title toc-ignore">Microbiome Network</h1>
 <h4 class="author"><em>Alcala &amp; Poudel</em></h4>
-<h4 class="date"><em>7/24/2018</em></h4>
 
 </div>
 
 
+<p>July 28, 2018</p>
 <div id="metagenomics" class="section level2">
 <h2>Metagenomics</h2>
-<p>Metagenomics is the study of environmental communities using high-througput sequencing (HTS) from samples recovered directly from the environment, there is no need for culture the organism for its identification. The genetic or genomic information is used to characterize the diversity of organism, per example the use of the small ribosomal subunit <strong>18S</strong> for <strong>nematodes</strong>, the nuclear ribosomal internal trasncribed spacer (<strong>ITS</strong>) for <strong>fungi</strong>, or the ribosomal small subunit <strong>16S</strong> for <strong>bacteria</strong>, or sequencing of <strong>viral nucleic acids</strong> recovered from infected host, or virion purification or enrichment of replicative forms RNA.</p>
-<p>The sampling depdends on the organism of study, it could be leaves, roots, soil, etc. The isolation of nucleic acids for HTS is crucial, high abundance and good quality is required. The vast options of sequencing methods, Illumina sequencing, produces the largest number of reads with the highest quality among the different technologies. Usually, the number of reads yielded from HTS goes up to millions, bioinformatic skills and powerful computers are usually helpful. There are many bioinformatic pipeline available online, or servers that could help you analyze your data, however, this workshop is designed for the analysis of networks based on the metagenomic data.<br />
-A good experimental desing is important in order to get a better understanding and confidence of your model system.</p>
+<p>Metagenomics is the study of microbial communities. With the advent of high-throughput sequencing (HTS) platform, it is possible to characterize and study microbes from the environmental samples directly. There is no need to culture organisms for its identification. Genetic or genomic information is used to characterize the diversity of organism. Usually, the conserved genes such as small ribosomal subunit <strong>18S</strong> for <strong>nematodes</strong>, the internal trasncribed spacer (<strong>ITS</strong>) for <strong>fungi</strong>, or <strong>16S rRNA</strong> for <strong>bacteria</strong>, or <strong>viral nucleic acids</strong> are commonly sequenced.</p>
+<p>Sampling depends on the organism of study, it could be leaves, roots, soil, etc. Isolation of nucleic acid for HTS is crucial, high abundance and good quality is required. The vast options of sequencing methods, Illumina sequencing, produces the largest number of reads with the highest quality among the different technologies. Usually, the number of reads yielded from HTS are large, bioinformatic skills and powerful computers are usually helpful. There are many bioinformatic pipeline available online, or servers that could help you analyze your data; however, this workshop is designed for the analysis of networks based on the metagenomic data.</p>
+<p>A good experimental design is important in order to get a better understanding and confidence of your model system.</p>
 </div>
 <div id="r-time" class="section level2">
 <h2>R time!</h2>
@@ -365,11 +365,7 @@ library(igraph)
 library(Hmisc)  
 # install.packages(&quot;Matrix&quot;) # uncomment this line in order to install this package
 library(Matrix)   </code></pre>
-<p>Loading the data, we are going to load two tables [comma separated value or <code>csv</code> format], using the command <code>read.csv()</code>, we either could call the file following the PATH or use the command <code>file.choose()</code>, select the files <code>otudata.csv</code> and <code>otu_taxonomy.csv</code>. If you have not already, you can download the files here:</p>
-<p> </p>
-<p><a href="otudata.csv" class="uri">otudata.csv</a><br />
-<a href="otu_taxonomy.csv" class="uri">otu_taxonomy.csv</a></p>
-<p> </p>
+<p>Loading the data, we are going to load two tables [comma separated value or <code>csv</code> format], using the command <code>read.csv()</code>, we either could call the file following the PATH or use the command <code>file.choose()</code>, select the files <code>otudata.csv</code> and <code>otu_taxonomy.csv</code>.</p>
 <pre><code># Load the data with the OTU table: otudata.csv
 otu.table&lt;-read.csv(file.choose(), header=T, row.names = 1)
 
@@ -384,6 +380,10 @@ Columns are samples, and rows are operative taxonomic units [OTUs].</p>
 <p>We can compare the initial number of OTUs, and after discarding low read count.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">c</span>(<span class="kw">ncol</span>(otu.table),<span class="st">&quot;versus&quot;</span>,<span class="kw">ncol</span>(otu.table.filter)))</code></pre></div>
 <pre><code>## [1] &quot;3052&quot;   &quot;versus&quot; &quot;2572&quot;</code></pre>
+</div>
+<div id="network-analysis" class="section level1">
+<h1>Network analysis</h1>
+<p>Now we have loaded the required files, we will be using those OTU count data, and taxonomy file to build a microbiome network. In the microbiome network, a node represents taxon, and links exist between a pair of nodes if their sequence frequency are significantly correlated. Multiple staticstical approaces such as pearson, spearman correlation are commmonly used to define the pairwise association; however, other methods (such as SparCC, SpiecEasi) for microbiome data are also available. Given the limitation of computational time and resource, we will be using spearman correlation here.</p>
 </div>
 <div id="correlation-matrices" class="section level1">
 <h1>Correlation matrices</h1>
@@ -409,12 +409,8 @@ p.yes.rr &lt;-<span class="st"> </span>p.yes.r*r.val <span class="co"># use logi
 <p>Add taxonomic information from the metadata associated with adjacency matrix</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(adjm) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(sel.tax$Family)
 <span class="kw">rownames</span>(adjm) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(sel.tax$Family)</code></pre></div>
-</div>
-<div id="network-analysis" class="section level1">
-<h1>Network analysis</h1>
-<p>RAVIN INTRO TO MICROBIOME NETWORKS</p>
 <p><strong>iGraph</strong> can create graph objects from different sources like <code>data.frame</code>, <code>edge.list</code>, or from <code>adjacency.matrix</code>.<br />
-The function <code>graph.adjacency</code> creates a graph object from adjacency matrix.</p>
+The function <code>graph.adjacency</code> creates a graph object from adjacency matrix. Weight here represents the level of correlation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">net.grph=<span class="kw">graph.adjacency</span>(adjm,<span class="dt">mode=</span><span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted=</span><span class="ot">TRUE</span>,<span class="dt">diag=</span><span class="ot">FALSE</span>)</code></pre></div>
 <p>Obtaining edge weight based on the Spearman correlation</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">edgew&lt;-<span class="kw">E</span>(net.grph)$weight</code></pre></div>
@@ -433,13 +429,24 @@ Other characteristics can adjusted within the function <code>plot()</code>.</p>
     <span class="dt">edge.curved=</span>F,
     <span class="dt">edge.width=</span><span class="fl">1.5</span>,
     <span class="dt">layout=</span>layout.fruchterman.reingold,
-    <span class="co">#layout=layout_with_dh(net.grph, weight.node.dist = sqrt(20)),</span>
     <span class="dt">edge.color=</span><span class="kw">ifelse</span>(edgew &lt;<span class="st"> </span><span class="dv">0</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>),
     <span class="dt">vertex.label=</span><span class="ot">NA</span>,
     <span class="dt">vertex.label.color=</span><span class="st">&quot;black&quot;</span>,
     <span class="dt">vertex.label.family=</span><span class="st">&quot;Times New Roman&quot;</span>,
     <span class="dt">vertex.label.font=</span><span class="dv">2</span>)</code></pre></div>
-<p><img src="Microbiome_ws_ICPP_2018_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="Microbiome_network_ICPP2018_v2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>If you want to have a network with node labeled, then you can comment (#) or remove vertex.label=NA line of the code. Also, you can try on your own to change different paramter in the available code, and adjust the values as you want or make sense.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(net.grph,
+    <span class="dt">vertex.size=</span><span class="dv">8</span>,
+    <span class="dt">vertex.frame.color=</span><span class="st">&quot;black&quot;</span>,
+    <span class="dt">edge.curved=</span>F,
+    <span class="dt">edge.width=</span><span class="dv">1</span>,
+    <span class="dt">layout=</span>layout.fruchterman.reingold,
+    <span class="dt">edge.color=</span><span class="kw">ifelse</span>(edgew &lt;<span class="st"> </span><span class="dv">0</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>),
+    <span class="dt">vertex.label.color=</span><span class="st">&quot;black&quot;</span>,
+    <span class="dt">vertex.label.family=</span><span class="st">&quot;Times New Roman&quot;</span>,
+    <span class="dt">vertex.label.font=</span><span class="fl">0.1</span>)</code></pre></div>
+<p><img src="Microbiome_network_ICPP2018_v2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 
 

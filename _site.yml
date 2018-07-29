@@ -16,7 +16,7 @@ navbar:
     - text: Epidemic Networks
       href: EpidemicNetworks.html
     - text: Microbiome Networks 
-      href: Microbiome_ws_ICPP_2018.html
+      href: Microbiome_network_ICPP2018_v2.html
   - text: Additional Resources
     menu:
     - text: Resources
