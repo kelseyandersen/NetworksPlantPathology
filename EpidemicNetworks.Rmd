@@ -31,13 +31,45 @@ X1 %*% X2 ## Matrix multiplication
 
 
 
-Matrix multiplication is a concept from liner algebra that helps us work mathematically with matrices. Unlike when adding two matrices together, we do not go element-wise when getting the product of matrices. Using matrix multiplication, we can visualize the process by which infections spread through networks over time. 
-
-
-![](Pictures/Picture2.png)  
-![Above is a simple example of matrix multiplication](Pictures/Picture3.png)
+Matrix multiplication is a concept from liner algebra that helps us work mathematically with matrices. Unlike when adding two matrices together, we do not go element-wise when getting the product of matrices. Using matrix multiplication, we can visualize the process by which infections spread through networks over time.  
 \  
-The answer: 
+A simple example of matrix multiplication:
+
+$$
+\left[\begin{array}{rrr} 
+A & B\\
+C & D \\
+\end{array}\right]*
+\left[\begin{array}{rrr} 
+E & F\\ 
+G & H \\
+\end{array}\right] = 
+\left[\begin{array}{rrr} 
+AE+BG & AF+BH\\ 
+CE+DG & CF+DH \\
+\end{array}\right]
+$$ 
+\  
+Or..
+$$
+\left[\begin{array}{rrr} 
+1 & 2\\
+3 & 4 \\
+\end{array}\right]*
+\left[\begin{array}{rrr} 
+5 & 6\\ 
+7 & 8 \\
+\end{array}\right] = 
+\left[\begin{array}{rrr} 
+(1*5)+(2*7) & (1*6)+(2*8)\\ 
+(3*5)+(4*7) & (3*6)+(4*8) \\
+\end{array}\right]
+$$ 
+
+\  
+
+
+Which gives us.. 
 
 $$\mathbf{} = \left[\begin{array}
 {rrr}
