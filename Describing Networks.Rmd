@@ -3,6 +3,9 @@ title: "Visualizing and Describing Networks"
 author: "Kelsey Andersen, Robin Choudhury, & James Fulton"
 ---
 
+#### Slides for this section can be downloaded here:
+* [Intro to Networks in R](PDFFiles/ICPP2018_IntroToNetworks.pdf)
+
 ## Networks with igraph 
 
 First, make sure you have loaded package *igraph*. 

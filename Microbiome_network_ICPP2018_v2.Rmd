@@ -4,6 +4,9 @@ author: "Alcala & Poudel"
 ---
 `r as.character(format(Sys.Date(), format="%B %d, %Y"))`
 
+#### Slides for this section can be downloaded here:
+* [Microbiome CaseStudy](PDFFiles/ICPP2018_Microbiome_CaseStudy.pdf)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 #setwd("/Users/ricardoialcala/Documents/Documents-ehecatl/UFL/+UniversityofFlorida/Talks/Workshop_ICPP2018/")

@@ -4,6 +4,9 @@ author: "Ravin Poudel"
 ---
 `r as.character(format(Sys.Date(), format="%B %d, %Y"))`
 
+#### Slides for this section can be downloaded here:
+* [Intro to Tidyverse](PDFFiles/ICPP2018_tidyverse.pdf)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
