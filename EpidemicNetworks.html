@@ -514,16 +514,16 @@ Amat &lt;-<span class="st"> </span>Amat*<span class="dv">1</span> ## make your l
 <span class="kw">diag</span>(Amat) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># set the diagonals to 1 so that if a node is infected, it stays infected</span>
 Amat <span class="co"># our randomly generated matrix</span></code></pre></div>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-##  [1,]    1    1    0    0    0    0    0    0    1     0
-##  [2,]    0    1    0    0    0    1    0    1    1     1
-##  [3,]    0    0    1    0    0    0    0    1    1     0
-##  [4,]    1    1    1    1    1    0    1    0    1     0
-##  [5,]    1    0    0    1    1    0    0    0    1     0
-##  [6,]    0    1    0    0    0    1    1    0    0     0
-##  [7,]    0    1    1    1    1    0    1    0    0     0
-##  [8,]    0    0    1    0    0    1    0    1    0     0
-##  [9,]    0    1    1    0    0    0    1    1    1     1
-## [10,]    0    0    1    1    0    0    0    0    0     1</code></pre>
+##  [1,]    1    1    0    1    1    0    0    0    0     0
+##  [2,]    0    1    0    1    0    0    0    0    0     0
+##  [3,]    0    1    1    0    1    0    0    0    0     0
+##  [4,]    0    0    1    1    1    1    0    0    1     0
+##  [5,]    1    1    0    0    1    1    1    1    1     0
+##  [6,]    1    1    0    0    0    1    0    1    0     0
+##  [7,]    0    1    0    0    1    0    1    1    0     1
+##  [8,]    0    0    0    1    0    0    0    1    0     0
+##  [9,]    0    0    0    0    0    0    0    0    1     0
+## [10,]    1    0    0    1    1    0    0    0    0     1</code></pre>
 <p> </p>
 <p>Plot to see you network</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mat3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(Amat)
@@ -540,7 +540,7 @@ df</code></pre></div>
 <pre><code>##       Time1 Time2
 ##  [1,]     1     1
 ##  [2,]     0     1
-##  [3,]     0     1
+##  [3,]     0     0
 ##  [4,]     0     1
 ##  [5,]     0     1
 ##  [6,]     1     1
@@ -609,9 +609,9 @@ fix.layout &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(
 FullNet2 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(FullNet)
 FullNet3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(FullNet2)
 FullNet3</code></pre></div>
-<pre><code>## IGRAPH f592e1c DN-- 126 283 -- 
+<pre><code>## IGRAPH afe4ef3 DN-- 126 283 -- 
 ## + attr: name (v/c)
-## + edges from f592e1c (vertex names):
+## + edges from afe4ef3 (vertex names):
 ##  [1] S_1 -&gt;V_30 S_1 -&gt;V_48 S_1 -&gt;V_58 S_1 -&gt;V_95 S_1 -&gt;V_98 S_10-&gt;V_30
 ##  [7] S_10-&gt;V_35 S_10-&gt;V_53 S_10-&gt;V_58 S_10-&gt;V_86 S_10-&gt;V_89 S_10-&gt;V_97
 ## [13] S_10-&gt;V_98 S_11-&gt;V_30 S_11-&gt;V_35 S_11-&gt;V_53 S_11-&gt;V_58 S_11-&gt;V_86
@@ -815,11 +815,11 @@ timestatus</code></pre></div>
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
 <p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-8.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_9 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)
+
+<span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_10 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
 <p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-9.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_10 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
-<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-10.png" width="672" /></p>
 <p>Plot the number of nodes infected over time with Node 1 as starting node</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">timestatus1 &lt;-<span class="st"> </span>timestatus %&gt;%
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&#39;vec&#39;</span>, <span class="st">&#39;v_2&#39;</span>, <span class="st">&#39;v_3&#39;</span>, <span class="st">&#39;v_4&#39;</span>, <span class="st">&#39;v_5&#39;</span>, <span class="st">&#39;v_6&#39;</span>, <span class="st">&#39;v_7&#39;</span>, <span class="st">&#39;v_8&#39;</span>, <span class="st">&#39;v_9&#39;</span>, <span class="st">&#39;v_10&#39;</span>, <span class="dt">key =</span> <span class="st">&quot;Timestep&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;Status&quot;</span> )
