@@ -4,7 +4,8 @@ author: "Kelsey Andersen, Robin Choudhury, & James Fulton"
 ---
 
 #### Slides for this section can be downloaded here:
-* [Intro to Networks in R](PDFFiles/ICPP2018_IntroToNetworks.pdf)
+* [Intro to Networks](PDFFiles/Intro.pdf)  
+* [Intro to Networks in R](PDFFiles/IntroNetworksR.pdf)
 
 ## Networks with igraph 
 

@@ -4,7 +4,9 @@ author: "Ravin Poudel"
 ---
 `r as.character(format(Sys.Date(), format="%B %d, %Y"))`
 
-#### Slides for this section can be downloaded here:
+#### Slides for this section can be downloaded here:  
+ 
+* [Intro to R](PDFFiles/ICPP2018_IntroR.pdf)
 * [Intro to Tidyverse](PDFFiles/ICPP2018_tidyverse.pdf)
 
 ```{r setup, include=FALSE}
