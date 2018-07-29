@@ -7,6 +7,11 @@ author: "Alcala & Poudel"
 #### Slides for this section can be downloaded here:
 * [Microbiome CaseStudy](PDFFiles/ICPP2018_Microbiome_CaseStudy.pdf)
 
+#### Csv files can be downloaded here:  
+ 
+* [OTU Taxonomy](otu_taxonomy.csv)
+* [OTU data](otudata.csv)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 #setwd("/Users/ricardoialcala/Documents/Documents-ehecatl/UFL/+UniversityofFlorida/Talks/Workshop_ICPP2018/")
