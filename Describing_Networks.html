@@ -404,16 +404,16 @@ Here, for example, we color the nodes and change the size and position of the la
 <span class="kw">plot</span>(eg, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>) ## no node labels.</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eg <span class="co"># view graph object</span></code></pre></div>
-<pre><code>## IGRAPH fb7a86d D--- 50 0 -- 
-## + edges from fb7a86d:</code></pre>
+<pre><code>## IGRAPH 1f70f31 D--- 50 0 -- 
+## + edges from 1f70f31:</code></pre>
 <p>And a full graph (all possible links = 780):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fg &lt;-<span class="st"> </span><span class="kw">make_full_graph</span>(<span class="dv">40</span>)
 <span class="kw">plot</span>(fg, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;plum&quot;</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fg <span class="co"># view graph</span></code></pre></div>
-<pre><code>## IGRAPH 0bfe613 U--- 40 780 -- Full graph
+<pre><code>## IGRAPH cb18bc1 U--- 40 780 -- Full graph
 ## + attr: name (g/c), loops (g/l)
-## + edges from 0bfe613:
+## + edges from cb18bc1:
 ##  [1] 1-- 2 1-- 3 1-- 4 1-- 5 1-- 6 1-- 7 1-- 8 1-- 9 1--10 1--11 1--12
 ## [12] 1--13 1--14 1--15 1--16 1--17 1--18 1--19 1--20 1--21 1--22 1--23
 ## [23] 1--24 1--25 1--26 1--27 1--28 1--29 1--30 1--31 1--32 1--33 1--34
@@ -480,19 +480,19 @@ Nodelist       </code></pre></div>
 <p>Let’s make our farmer communication network!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FarmNetwork &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="dt">d =</span> Edgelist, <span class="dt">vertices =</span> Nodelist, <span class="dt">directed =</span> T)
 FarmNetwork</code></pre></div>
-<pre><code>## IGRAPH 2a965f8 DN-- 13 11 -- 
+<pre><code>## IGRAPH fdc211b DN-- 13 11 -- 
 ## + attr: name (v/c), YearsFarming (v/n), Age (v/n), Gender (v/c)
-## + edges from 2a965f8 (vertex names):
+## + edges from fdc211b (vertex names):
 ##  [1] Jim -&gt;Carole Jim -&gt;Jen    Jim -&gt;Pete   Jill-&gt;Carole Kate-&gt;Joe   
 ##  [6] Pete-&gt;Carole Pete-&gt;Paul   Jess-&gt;Mark   Jim -&gt;Cam    Jim -&gt;Mark  
 ## [11] Pete-&gt;Tim</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">E</span>(FarmNetwork) <span class="co"># view edges</span></code></pre></div>
-<pre><code>## + 11/11 edges from 2a965f8 (vertex names):
+<pre><code>## + 11/11 edges from fdc211b (vertex names):
 ##  [1] Jim -&gt;Carole Jim -&gt;Jen    Jim -&gt;Pete   Jill-&gt;Carole Kate-&gt;Joe   
 ##  [6] Pete-&gt;Carole Pete-&gt;Paul   Jess-&gt;Mark   Jim -&gt;Cam    Jim -&gt;Mark  
 ## [11] Pete-&gt;Tim</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FarmNetwork) <span class="co"># view nodes</span></code></pre></div>
-<pre><code>## + 13/13 vertices, named, from 2a965f8:
+<pre><code>## + 13/13 vertices, named, from fdc211b:
 ##  [1] Jim      Carole   Joe      Michelle Jen      Pete     Paul    
 ##  [8] Tim      Jess     Mark     Jill     Cam      Kate</code></pre>
 <p>Plot!</p>
@@ -534,8 +534,8 @@ FarmNetwork</code></pre></div>
 <p>Use igraph “graph” function to plot a network directly as igraph object. We will use this as an example.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Net2 &lt;-<span class="st"> </span><span class="kw">graph</span>(<span class="dt">edges=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">3</span>,<span class="dv">2</span>, <span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">5</span>,<span class="dv">4</span>), <span class="dt">n=</span><span class="dv">5</span>, <span class="dt">directed=</span>T) 
 Net2</code></pre></div>
-<pre><code>## IGRAPH 553b14d D--- 5 5 -- 
-## + edges from 553b14d:
+<pre><code>## IGRAPH 6c4a4b3 D--- 5 5 -- 
+## + edges from 6c4a4b3:
 ## [1] 1-&gt;3 3-&gt;2 2-&gt;1 2-&gt;4 5-&gt;4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Net2, <span class="dt">edge.arrow.size =</span> .<span class="dv">5</span>, <span class="dt">vertex.color =</span> <span class="st">&quot;gold&quot;</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
@@ -686,107 +686,107 @@ for(i in <span class="dv">1</span>:n){
 }
 degamat</code></pre></div>
 <pre><code>##        [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
-## degmat    2    2    2    2    0    3    3    1    2     0     2     2
-## degmat    0    1    1    4    1    0    1    4    2     0     3     3
-## degmat    3    1    3    2    1    3    0    1    4     2     1     0
-## degmat    1    0    1    2    5    0    2    1    2     1     2     4
-## degmat    1    1    3    2    1    0    0    2    3     3     1     3
-## degmat    1    2    1    2    2    3    3    3    1     1     0     1
-## degmat    2    0    3    3    3    2    0    1    2     1     1     2
-## degmat    3    3    1    2    2    0    1    1    1     2     1     3
-## degmat    0    4    0    2    1    4    2    2    3     2     0     2
-## degmat    1    1    3    1    3    0    1    4    1     2     4     1
-## degmat    1    2    2    2    2    1    2    2    1     3     0     1
-## degmat    3    1    5    2    1    1    1    1    2     0     0     1
-## degmat    4    1    1    0    0    1    2    2    2     2     2     2
-## degmat    3    2    1    2    1    1    4    2    1     0     2     3
-## degmat    2    0    1    2    1    2    0    4    0     2     3     2
-## degmat    2    1    1    2    1    2    1    0    4     1     2     4
-## degmat    3    3    2    2    0    2    2    3    0     0     2     3
-## degmat    2    3    2    0    0    2    2    1    2     1     2     3
-## degmat    1    3    1    3    1    1    2    3    2     2     1     1
-## degmat    2    1    3    2    2    2    1    1    3     2     0     2
-## degmat    1    2    1    3    1    1    2    2    1     2     1     3
-## degmat    2    2    2    2    2    2    1    2    1     0     1     2
-## degmat    1    4    0    2    2    1    1    1    2     3     0     2
-## degmat    1    1    2    1    0    1    2    2    3     3     1     3
-## degmat    1    2    0    3    2    3    1    2    1     3     1     0
-## degmat    3    1    2    0    2    3    2    1    2     2     0     3
-## degmat    2    3    1    2    1    0    1    3    1     1     3     2
-## degmat    3    1    1    1    1    2    3    3    2     0     2     2
-## degmat    2    3    1    1    2    0    1    0    2     0     2     3
-## degmat    2    1    1    4    1    2    3    1    1     1     0     2
-## degmat    1    1    0    2    1    1    3    2    2     1     3     3
-## degmat    1    2    5    0    1    1    2    0    1     2     1     2
-## degmat    1    3    3    2    1    3    3    1    0     1     3     0
-## degmat    2    1    0    2    4    3    2    2    1     1     1     3
-## degmat    2    0    1    2    1    1    1    1    3     3     4     1
-## degmat    1    3    2    1    1    1    3    3    3     1     1     2
-## degmat    4    2    2    3    0    0    2    1    2     0     2     3
-## degmat    0    1    3    2    3    2    2    1    1     1     2     3
-## degmat    2    0    0    2    2    2    2    1    3     2     3     2
-## degmat    1    2    1    2    5    1    1    0    2     3     3     0
-## degmat    0    1    3    1    2    1    2    4    1     2     4     0
-## degmat    2    1    2    2    2    2    2    2    0     3     2     1
-## degmat    3    3    0    0    2    3    1    1    1     0     5     1
-## degmat    1    2    2    1    3    1    3    1    2     2     1     1
-## degmat    2    0    1    2    2    0    2    2    1     4     3     2
-## degmat    1    2    1    2    2    1    1    2    1     1     3     2
-## degmat    2    2    2    4    1    1    0    2    1     3     2     1
-## degmat    4    2    0    3    1    2    0    0    2     1     3     3
-## degmat    1    2    2    1    0    0    3    2    2     1     3     1
-## degmat    2    2    3    4    0    3    0    2    1     2     2     0
+## degmat    2    4    0    4    0    3    1    3    2     1     1     1
+## degmat    3    1    1    1    2    1    5    1    2     2     0     2
+## degmat    1    2    1    3    2    0    1    3    1     3     1     1
+## degmat    0    1    1    3    2    1    0    2    4     2     2     2
+## degmat    2    2    3    1    2    1    1    3    1     2     3     0
+## degmat    2    4    1    2    2    2    1    1    2     1     1     1
+## degmat    1    0    3    1    0    1    1    0    3     2     3     2
+## degmat    3    1    4    1    1    3    1    0    0     1     1     2
+## degmat    3    1    1    1    0    2    3    3    2     2     0     4
+## degmat    3    1    2    1    2    0    3    1    2     2     3     1
+## degmat    2    2    1    2    1    4    0    1    1     2     3     1
+## degmat    1    2    3    2    4    1    1    1    0     1     1     2
+## degmat    1    0    3    3    2    1    3    1    3     3     0     2
+## degmat    3    1    2    1    2    0    2    1    1     2     2     2
+## degmat    1    2    3    3    0    2    3    2    0     3     2     0
+## degmat    2    1    2    0    3    1    1    2    3     3     1     1
+## degmat    2    2    1    1    1    3    2    1    3     1     2     2
+## degmat    2    2    2    2    1    1    0    2    3     1     0     3
+## degmat    2    1    2    1    2    0    2    2    2     1     3     1
+## degmat    5    1    2    2    2    0    2    0    2     1     2     2
+## degmat    2    2    4    4    1    0    1    0    3     1     0     3
+## degmat    3    3    1    2    3    2    2    0    1     1     2     2
+## degmat    2    3    1    1    2    2    1    3    1     1     1     3
+## degmat    2    2    1    1    3    0    2    2    1     2     3     3
+## degmat    0    1    2    2    1    4    3    2    3     0     3     1
+## degmat    3    1    2    1    1    3    2    1    1     2     2     1
+## degmat    4    2    2    0    3    0    3    1    1     2     1     2
+## degmat    3    1    1    1    3    1    1    1    2     1     1     3
+## degmat    1    1    1    3    2    3    2    2    1     4     0     2
+## degmat    2    1    3    1    2    1    2    1    2     2     1     2
+## degmat    1    2    0    2    3    1    3    1    3     2     2     0
+## degmat    0    4    3    0    2    2    1    1    0     3     2     4
+## degmat    1    2    3    1    1    4    1    0    1     1     1     4
+## degmat    1    0    2    2    0    3    4    3    2     3     1     0
+## degmat    0    2    1    3    0    1    1    2    2     2     4     1
+## degmat    1    2    3    3    3    2    2    0    1     1     2     2
+## degmat    1    3    0    2    3    3    2    3    0     1     2     1
+## degmat    2    1    1    1    4    1    0    4    4     1     0     2
+## degmat    2    0    1    2    4    3    1    3    1     1     1     2
+## degmat    0    4    1    1    4    3    3    1    0     3     2     0
+## degmat    3    0    1    2    0    1    3    2    1     3     2     2
+## degmat    4    0    2    2    3    2    1    3    2     1     0     0
+## degmat    1    4    1    3    2    1    1    1    0     2     3     3
+## degmat    3    1    2    3    2    1    1    1    0     3     1     1
+## degmat    2    2    1    1    1    3    1    1    3     2     1     1
+## degmat    0    0    2    2    5    0    3    2    2     3     2     0
+## degmat    0    2    4    3    2    0    1    2    2     3     2     1
+## degmat    1    1    2    2    1    1    3    0    3     4     0     2
+## degmat    3    1    3    2    3    1    2    0    3     1     3     0
+## degmat    3    2    2    1    4    0    2    2    1     2     0     3
 ##        [,13]
-## degmat     1
-## degmat     2
-## degmat     1
-## degmat     1
-## degmat     2
-## degmat     2
-## degmat     2
-## degmat     2
 ## degmat     0
-## degmat     0
-## degmat     3
-## degmat     4
-## degmat     3
-## degmat     0
-## degmat     3
 ## degmat     1
-## degmat     0
+## degmat     3
 ## degmat     2
 ## degmat     1
-## degmat     1
 ## degmat     2
-## degmat     3
-## degmat     3
-## degmat     2
-## degmat     3
-## degmat     1
-## degmat     2
-## degmat     1
 ## degmat     5
-## degmat     3
-## degmat     2
 ## degmat     4
+## degmat     0
+## degmat     1
+## degmat     2
+## degmat     3
+## degmat     0
+## degmat     3
+## degmat     1
+## degmat     2
+## degmat     1
+## degmat     3
+## degmat     3
+## degmat     1
+## degmat     1
+## degmat     0
+## degmat     1
+## degmat     0
+## degmat     0
+## degmat     2
+## degmat     1
+## degmat     3
+## degmat     0
+## degmat     2
+## degmat     2
+## degmat     0
+## degmat     2
+## degmat     1
+## degmat     3
+## degmat     0
+## degmat     1
+## degmat     1
+## degmat     1
+## degmat     0
+## degmat     2
+## degmat     2
+## degmat     0
+## degmat     3
+## degmat     3
 ## degmat     1
 ## degmat     0
 ## degmat     2
 ## degmat     0
-## degmat     1
-## degmat     1
-## degmat     1
-## degmat     1
-## degmat     1
-## degmat     1
-## degmat     2
-## degmat     2
-## degmat     1
-## degmat     3
-## degmat     1
-## degmat     1
-## degmat     4
-## degmat     1</code></pre>
+## degmat     0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(degamat, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">7</span>), <span class="dt">breaks =</span> <span class="dv">7</span>)</code></pre></div>
 <p><img src="Describing_Networks_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Graph and compare the degree distribution of our surveyed graph with degree distribution of our random networks.<br />
