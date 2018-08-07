@@ -12,5 +12,43 @@ title: "Resources"
 
 * igraph: http://igraph.org/r/  
 * igraph tutorial: kateto.net/networks-r-igraph  
-* Statnet network tools: https://statnet.github.io/nme/   
+* Statnet network tools: https://statnet.github.io/nme/    
+\    
 
+
+
+
+## Key Garrett Lab Publications   
+\  
+
+### Reviews
+
+K.A. Garrett, R.I. Alcala-Briseon, K.F. Andersen, C.E. Buddenhagen, R.A. Choudhury, J.C. Fulton, J.F. Hernandez Nopsa, R. Poudel,and Y. Xing. 2018. Network Analysis: A Systems Framework to Address Grand Challenges in Plant Pathology. Annual Review of Phytopathology. First Look. [Link](https://www.annualreviews.org/doi/abs/10.1146/annurev-phyto-080516-035326)
+
+### Preprints
+Andersen, K. F., C. E. Buddenhagen, P. Rachkara, R. Gibson, S. Kalule, D. Phillips, and K. A. Garrett. 2018. Modeling epidemics in seed systems to guide management strategies: The case of sweetpotato in Northern Uganda. bioRxiv: https://doi.org/10.1101/107359.
+
+Buddenhagen, C. E., K. F. Andersen, J. C. Fulton, and K. A. Garrett. 2017. Survey methods for seed system network analysis. PeerJ Preprints 5:e2806v2801. [open access link](https://peerj.com/preprints/2806/)
+
+Xing, Y., J. Hernandez Nopsa, J. Andrade-Piedra, F. Beed, G. Blomme, M. Carvajal Yepes, D. Coyne, G. Forbes, J. Kreuze, J. Kroschel, L. Kumar, J. Legg, M. Parker, E. Schulte-Geldermann, and K.  A. Garrett.  2017. Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. bioRxiv: https://doi.org/10.1101/106542.   
+\   
+
+
+### Published Journal Articles
+Buddenhagen, C. E.,  J. F. Hernandez Nopsa, K. F. Andersen, J. Andrade-Piedra, G. A. Forbes, P. Kromann, S. Thomas-Sharma, P. Useche, and K. A. Garrett. 2017. Epidemic network analysis for mitigation of invasive pathogens in seed systems: Potato in Ecuador.  Phytopathology 107:1209-1218. [open access link]
+
+Garrett, K. A., K. F. Andersen, F. Asche, R. L. Bowden, G. A. Forbes, P. A. Kulakow, and B. Zhou. 2017. Resistance genes in global crop breeding networks. Phytopathology 107:1268-1278. [open access link](https://apsjournals.apsnet.org/doi/10.1094/PHYTO-03-17-0108-FI)
+
+Poudel, R., A. Jumpponen, D. C. Schlatter, T. C. Paulitz, B. McSpadden Gardener, L. L. Kinkel, and K. A. Garrett.  2016.  Microbiome networks: A systems framework for identifying candidate microbial assemblages for disease management.  Phytopathology 106:1083-1096. [open access link](http://apsjournals.apsnet.org/doi/abs/10.1094/PHYTO-02-16-0058-FI)
+
+Sanatkar, M. R., W. N. White, B. Natarajan, C. Scoglio, and K. A. Garrett. 2016. Epidemic threshold of an SIS model in dynamic switching networks. IEEE Transactions on Systems, Man, and Cybernetics 46:345-55. [link](https://ieeexplore.ieee.org/abstract/document/7161396/)
+
+Hernandez Nopsa, J. F., G. J. Daglish, D. W. Hagstrum, J. F. Leslie, T. W. Phillips, C. Scoglio, S. Thomas-Sharma, G. H. Walter, and K. A. Garrett. 2015. Ecological networks in stored grain: identifying key nodes for emerging pests and mycotoxins in postharvest networks.  BioScience 65:985-1002. [open access link](https://academic.oup.com/bioscience/article/65/10/985/245941/Ecological-Networks-in-Stored-Grain-Key)  
+
+Sanatkar, M. R., C. Scoglio, B. Natarajan, S. Isard, and K. A. Garrett. 2015. History, epidemic evolution, and model burn-in for a network of annual invasion: Soybean rust. Phytopathology 105:947-955. [open access link](http://apsjournals.apsnet.org/doi/abs/10.1094/PHYTO-12-14-0353-FI)  
+
+Cox, C. M., W. W. Bockus, R. D. Holt, L. Fang, and K. A. Garrett. 2013. The spatial connectedness of plant species: Potential links for apparent competition via plant diseases. Plant Pathology 62:1195-1438. [link](https://onlinelibrary.wiley.com/doi/full/10.1111/ppa.12045)
+
+Garrett, K. A. 2012. Information networks for plant disease: Commonalities in human management networks and within-host signaling networks. [Invited] European Journal of Plant Pathology 133:75-88. [link](https://link.springer.com/article/10.1007/s10658-012-9963-y)
+
+Sutrave, S., C. Scoglio, S. A. Isard, J. M. S. Hutchinson, and K. A. Garrett. 2012. Identifying highly connected counties compensates for resource limitations when evaluating national spread of an invasive pathogen. PLoS ONE 7:e37793. [open access link](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037793)
