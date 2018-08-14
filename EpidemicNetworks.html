@@ -104,6 +104,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -366,9 +369,9 @@ div.tocify {
 ##     union</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.2.0
+<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
+## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
 ## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
 <pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
@@ -436,7 +439,8 @@ CE+DG &amp; CF+DH \\
 \]</span></p>
 <p> </p>
 <p>Which gives us..</p>
-<p><span class="math display">\[\mathbf{} = \left[\begin{array}
+<p><span class="math display">\[
+\mathbf{} = \left[\begin{array}
 {rrr}
 67 &amp; 91 \\
 78 &amp; 106 \\
@@ -514,16 +518,16 @@ Amat &lt;-<span class="st"> </span>Amat*<span class="dv">1</span> ## make your l
 <span class="kw">diag</span>(Amat) &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># set the diagonals to 1 so that if a node is infected, it stays infected</span>
 Amat <span class="co"># our randomly generated matrix</span></code></pre></div>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-##  [1,]    1    1    0    0    0    0    0    0    0     0
-##  [2,]    1    1    0    0    0    0    1    0    0     0
-##  [3,]    0    0    1    0    0    1    1    1    1     0
-##  [4,]    0    0    0    1    0    0    0    0    0     1
-##  [5,]    0    0    0    0    1    0    0    0    0     1
-##  [6,]    0    0    0    1    0    1    1    0    1     1
-##  [7,]    0    0    1    0    0    1    1    1    0     0
-##  [8,]    0    0    0    1    0    1    0    1    1     0
-##  [9,]    0    0    0    1    0    0    0    1    1     1
-## [10,]    1    0    0    0    0    1    1    1    1     1</code></pre>
+##  [1,]    1    1    0    0    0    1    0    0    0     0
+##  [2,]    1    1    1    1    0    0    0    0    0     0
+##  [3,]    0    0    1    0    0    1    0    0    0     1
+##  [4,]    1    0    1    1    0    0    1    1    0     0
+##  [5,]    1    0    0    0    1    1    0    0    0     0
+##  [6,]    1    1    0    1    1    1    0    0    0     1
+##  [7,]    1    0    0    0    1    0    1    1    1     0
+##  [8,]    0    0    0    0    0    0    0    1    0     1
+##  [9,]    0    0    0    0    0    1    0    0    1     0
+## [10,]    1    0    0    0    0    0    1    1    0     1</code></pre>
 <p> </p>
 <p>Plot to see you network</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mat3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(Amat)
@@ -540,9 +544,9 @@ df</code></pre></div>
 <pre><code>##       Time1 Time2
 ##  [1,]     1     1
 ##  [2,]     0     1
-##  [3,]     0     1
+##  [3,]     0     0
 ##  [4,]     0     1
-##  [5,]     0     0
+##  [5,]     0     1
 ##  [6,]     1     1
 ##  [7,]     1     1
 ##  [8,]     1     1
@@ -609,9 +613,9 @@ fix.layout &lt;-<span class="st"> </span><span class="kw">layout_with_dh</span>(
 FullNet2 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(FullNet)
 FullNet3 &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(FullNet2)
 FullNet3</code></pre></div>
-<pre><code>## IGRAPH 6a27f17 DN-- 126 283 -- 
+<pre><code>## IGRAPH 7d40956 DN-- 126 283 -- 
 ## + attr: name (v/c)
-## + edges from 6a27f17 (vertex names):
+## + edges from 7d40956 (vertex names):
 ##  [1] S_1 -&gt;V_30 S_1 -&gt;V_48 S_1 -&gt;V_58 S_1 -&gt;V_95 S_1 -&gt;V_98 S_10-&gt;V_30
 ##  [7] S_10-&gt;V_35 S_10-&gt;V_53 S_10-&gt;V_58 S_10-&gt;V_86 S_10-&gt;V_89 S_10-&gt;V_97
 ## [13] S_10-&gt;V_98 S_11-&gt;V_30 S_11-&gt;V_35 S_11-&gt;V_53 S_11-&gt;V_58 S_11-&gt;V_86
@@ -806,20 +810,20 @@ timestatus</code></pre></div>
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
 <p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-5.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_6 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
+<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)
+
+<span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_7 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
 <p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-6.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_7 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
-<span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-7.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_8 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-8.png" width="672" /></p>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-7.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_9 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-9.png" width="672" /></p>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-8.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">V</span>(FullNet3)$color &lt;-<span class="st"> </span><span class="kw">ifelse</span>(timestatus$v_10 ==<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;white&quot;</span>)
 <span class="kw">plot</span>(FullNet3, <span class="dt">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="dt">vertex.size=</span><span class="dv">7</span>, <span class="dt">vertex.label.cex=</span>.<span class="dv">4</span>, <span class="dt">vertex.label.color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">layout =</span> l)</code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-10.png" width="672" /></p>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-22-9.png" width="672" /></p>
 <p>Plot the number of nodes infected over time with Node 1 as starting node</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">timestatus1 &lt;-<span class="st"> </span>timestatus %&gt;%
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&#39;vec&#39;</span>, <span class="st">&#39;v_2&#39;</span>, <span class="st">&#39;v_3&#39;</span>, <span class="st">&#39;v_4&#39;</span>, <span class="st">&#39;v_5&#39;</span>, <span class="st">&#39;v_6&#39;</span>, <span class="st">&#39;v_7&#39;</span>, <span class="st">&#39;v_8&#39;</span>, <span class="st">&#39;v_9&#39;</span>, <span class="st">&#39;v_10&#39;</span>, <span class="dt">key =</span> <span class="st">&quot;Timestep&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;Status&quot;</span> )
@@ -827,12 +831,12 @@ timestatus</code></pre></div>
 <pre><code>## # A tibble: 6 x 4
 ##   node  Type  Timestep Status
 ##   &lt;fct&gt; &lt;fct&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1 S_1   Buyer vec          0.
-## 2 S_10  Buyer vec          0.
-## 3 S_11  Buyer vec          0.
-## 4 S_12  Buyer vec          0.
-## 5 S_13  Buyer vec          0.
-## 6 S_14  Buyer vec          0.</code></pre>
+## 1 S_1   Buyer vec           0
+## 2 S_10  Buyer vec           0
+## 3 S_11  Buyer vec           0
+## 4 S_12  Buyer vec           0
+## 5 S_13  Buyer vec           0
+## 6 S_14  Buyer vec           0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## sum the number of nodes infected at each time point
 times1 &lt;-<span class="st"> </span>timestatus1 %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(Timestep) %&gt;%
@@ -843,7 +847,77 @@ times1 &lt;-<span class="st"> </span>timestatus1 %&gt;%
 ## plot number of nodes over 10 time steps
 <span class="kw">ggplot</span>(<span class="dt">data =</span> times1, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="kw">reorder</span>(Timestep, Number_of_Nodes), <span class="dt">y =</span> Number_of_Nodes)) +
 <span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Time step&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Nodes Infected&quot;</span>) +<span class="st"> </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">16</span>) </code></pre></div>
-<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-23-1.png" width="672" />    </p>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-23-1.png" width="672" />     ### Iteration Now, you can probably see that this is a good place to start using iteration! This means creating loops, and functions to help us automate these tasks. Or, decrease the number of times we copy and paste similar lines of code.</p>
+<div id="for-example-here-is-a-function-that-will-loop-through-several-replications-10-of-the-above-code" class="section level3">
+<h3>For example, here is a function that will loop through several replications (10) of the above code:</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## mat = your adjacency matrix
+## startnode = the node you would like to start with infection
+## nodenum = total number of nodes in the network 
+## p = probability of infection 
+
+
+diseaseSpread &lt;-<span class="st"> </span>function(mat, startnode, nodenum, p){
+  nn &lt;-<span class="st"> </span>nodenum*nodenum
+  mat &lt;-<span class="st">  </span><span class="kw">as.matrix</span>(mat)
+  <span class="kw">diag</span>(mat) &lt;-<span class="dv">1</span>
+  vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, nodenum)
+  vec[<span class="kw">c</span>(startnode)] &lt;-<span class="st"> </span><span class="dv">1</span>
+  NodesNew &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">126</span>,<span class="dv">10</span>*<span class="dv">10</span>)
+  Vec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(vec,<span class="dv">12</span>),<span class="dv">12</span>,<span class="dt">byrow =</span> T)
+  Status &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  Step &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  Sim &lt;-<span class="st"> </span><span class="ot">NULL</span>
+  
+for(j in <span class="dv">1</span>:<span class="dv">10</span>){
+  Sim &lt;-<span class="st"> </span><span class="kw">c</span>(Sim,<span class="kw">rep</span>(j,nodenum*<span class="dv">10</span>))
+    
+    for(i in <span class="dv">1</span>:<span class="dv">10</span>){
+      MatrixRun &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nn)&lt;<span class="st"> </span>p, <span class="dt">ncol =</span><span class="kw">length</span>(vec), <span class="dt">nrow =</span> <span class="kw">length</span>(vec))
+      MatrixRun &lt;-<span class="st"> </span>MatrixRun*<span class="dv">1</span>
+      MatrixRun &lt;-<span class="st"> </span>MatrixRun*mat
+      <span class="kw">diag</span>(MatrixRun) &lt;-<span class="st"> </span><span class="dv">1</span>
+      Vec[i<span class="dv">+1</span>,] &lt;-<span class="st"> </span>Vec[i,] %*%<span class="st"> </span>MatrixRun 
+      Vec[i<span class="dv">+1</span>,] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(Vec[i<span class="dv">+1</span>,] &gt;<span class="st"> </span><span class="dv">0</span>) 
+      Status &lt;-<span class="st"> </span><span class="kw">c</span>(Status ,Vec[i<span class="dv">+1</span>,])
+      Step &lt;-<span class="st"> </span><span class="kw">c</span>(Step, <span class="kw">rep</span>(i, <span class="dv">126</span>))
+    }
+  }
+  temp &lt;-<span class="st"> </span><span class="kw">cbind</span>(NodesNew,Sim, Step, Status)
+  temp &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(temp)
+  out &lt;-<span class="st"> </span>temp %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Sim, Step) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">Number_of_Nodes =</span> <span class="kw">sum</span>(Status))
+  <span class="kw">return</span>(out)
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Spread10 &lt;-<span class="st"> </span><span class="kw">diseaseSpread</span>(FullNet, <span class="dv">18</span>, <span class="dv">126</span>, .<span class="dv">1</span>)
+Spread10</code></pre></div>
+<pre><code>## # A tibble: 100 x 3
+## # Groups:   Sim [?]
+##      Sim  Step Number_of_Nodes
+##    &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
+##  1     1     1               4
+##  2     1     2              10
+##  3     1     3              14
+##  4     1     4              18
+##  5     1     5              21
+##  6     1     6              28
+##  7     1     7              33
+##  8     1     8              34
+##  9     1     9              35
+## 10     1    10              37
+## # ... with 90 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> Spread10, <span class="dt">mapping =</span> (<span class="kw">aes</span>(<span class="dt">x =</span> Step, <span class="dt">y =</span> Number_of_Nodes))) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">TRUE</span>) +
+<span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">22</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Timestep&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Nodes Infected&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>),
+                     <span class="dt">label =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>))
+plot</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="EpidemicNetworks_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
 </div>
 
 

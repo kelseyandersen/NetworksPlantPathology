@@ -72,20 +72,22 @@ $$
 
 Which gives us.. 
 
-$$\mathbf{} = \left[\begin{array}
+$$
+\mathbf{} = \left[\begin{array}
 {rrr}
 67 & 91 \\
 78 & 106 \\
 \end{array}\right]
 $$
 
-
-
 ### Starting State Vectors
 This concept is a method for infection spread over temporal networks. Note that to successfully perform matrix multiplication, there needs to be the same number of columns in matrix 1 as there are rows in matrix two. Let's look at this example. The first matrix is our *starting state vector* the second is our network adjacency matrix. 
 
-
 ![](Pictures/Vector.png)
+
+
+
+
 ```{r}
 V1 <- c(1,0,0) # starting vector of states
 M1 <- matrix(c(1,0,0,0,1,0,1,0,0),ncol=3)
@@ -94,6 +96,7 @@ plot(M2)
 V2 <- V1 %*% M1 ### matrix multiplication 
 V2
 ```
+
 \  
 
 
@@ -485,4 +488,71 @@ ggplot(data = times1, mapping = aes(reorder(Timestep, Number_of_Nodes), y = Numb
 ```
 \  
 \  
+### Iteration 
+Now, you can probably see that this is a good place to start using iteration! This means creating loops, and functions to help us automate these tasks. Or, decrease the number of times we copy and paste similar lines of code. 
 
+
+###For example, here is a function that will loop through several replications (10) of the above code:
+
+```{r}
+
+## mat = your adjacency matrix
+## startnode = the node you would like to start with infection
+## nodenum = total number of nodes in the network 
+## p = probability of infection 
+
+
+diseaseSpread <- function(mat, startnode, nodenum, p){
+  nn <- nodenum*nodenum
+  mat <-  as.matrix(mat)
+  diag(mat) <-1
+  vec <- rep(0, nodenum)
+  vec[c(startnode)] <- 1
+  NodesNew <- rep(1:126,10*10)
+  Vec <- matrix(rep(vec,12),12,byrow = T)
+  Status <- NULL
+  Step <- NULL
+  Sim <- NULL
+  
+for(j in 1:10){
+  Sim <- c(Sim,rep(j,nodenum*10))
+    
+    for(i in 1:10){
+      MatrixRun <- matrix(runif(nn)< p, ncol =length(vec), nrow = length(vec))
+      MatrixRun <- MatrixRun*1
+      MatrixRun <- MatrixRun*mat
+      diag(MatrixRun) <- 1
+      Vec[i+1,] <- Vec[i,] %*% MatrixRun 
+      Vec[i+1,] <- as.numeric(Vec[i+1,] > 0) 
+      Status <- c(Status ,Vec[i+1,])
+      Step <- c(Step, rep(i, 126))
+    }
+  }
+  temp <- cbind(NodesNew,Sim, Step, Status)
+  temp <- as.tibble(temp)
+  out <- temp %>%
+    group_by(Sim, Step) %>%
+    summarise(Number_of_Nodes = sum(Status))
+  return(out)
+}
+```
+
+
+
+
+```{r}
+Spread10 <- diseaseSpread(FullNet, 18, 126, .1)
+Spread10
+```
+
+```{r}
+plot <-  ggplot(data = Spread10, mapping = (aes(x = Step, y = Number_of_Nodes))) + 
+  geom_jitter(color = "gray70") +
+  geom_smooth(se = TRUE) +
+  theme_classic(base_size = 22) +
+  xlab("Timestep") +
+  ylab("Number of Nodes Infected") +
+  scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                     label = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+plot
+```
